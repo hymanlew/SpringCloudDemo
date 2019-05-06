@@ -19,12 +19,12 @@ public class DeptController_consumer {
 
     @GetMapping("/getById/{id}")
     public Department findById(@PathVariable("id") Integer id){
-        return restTemplate.postForObject(REST_URL_PREFIX + "/getById", id, Department.class);
+        return restTemplate.getForObject(REST_URL_PREFIX + "/getById/"+ id, Department.class);
     }
 
     @PostMapping("/findAll")
     public List<Department> findall(){
-        return restTemplate.postForObject(REST_URL_PREFIX + "/findAll", null, List.class);
+        return restTemplate.getForObject(REST_URL_PREFIX + "/findAll", List.class);
     }
 
     @GetMapping("/save")
