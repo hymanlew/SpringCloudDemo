@@ -60,6 +60,7 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
+            <scope>runtime</scope>
         </dependency>
     </dependencies>
 
@@ -124,27 +125,47 @@
         </dependencies>
     </dependencyManagement>
 
-    <!-- 不会自动生成 -->
+    <!-- 不会自动生成，在 IDEA 中创建微服务不需要这个，在 Eclipce 中可能需要 -->
     <!--<modules>-->
         <!--<module>cloud-api</module>-->
     <!--</modules>-->
 
+
+    <!-- 构建特殊配置信息，因为在构建Maven项目的时候，如果没有进行特殊的配置，Maven会按照标准的目录结构查找和处理各种类型文件。 -->
     <build>
-        <finalName>SpringCloudDemo</finalName>
-        <resources>
-            <resource>
-                <directory>src/main/resources</directory>
-                <filtering>true</filtering>
-            </resource>
-        </resources>
+        <!--<finalName>SpringCloudDemo</finalName>-->
+        <!--&lt;!&ndash; 通过 resource 标签来指定加载配置文件，也可以指定访问的资源的路径 &ndash;&gt;-->
+        <!--<resources>-->
+            <!--<resource>-->
+                <!--<directory>src/main/resources</directory>-->
+                <!--&lt;!&ndash; 该属性用来表示资源文件中的占位符是否需要被替换，true为需要替换（例如替换 ${xxx}）&ndash;&gt;-->
+                <!--<filtering>true</filtering>-->
+                <!--&lt;!&ndash; 排除掉特定的文件（例如 init.json 文件）&ndash;&gt;-->
+                <!--<excludes>-->
+                    <!--<exclude>**/*.json</exclude>-->
+                <!--</excludes>-->
+            <!--</resource>-->
+        <!--</resources>-->
+
+        <!-- 下面插件是用来让 maven 项目可以访问到资源，并且可以自定义规则去访问。否则按照 maven 默认的来访问资源。-->
         <plugins>
+            <!--<plugin>-->
+                <!--<groupId>org.apache.maven.plugins</groupId>-->
+                <!--<artifactId>maven-resources-plugin</artifactId>-->
+                <!--&lt;!&ndash; 自定义访问资源的规则为，只访问到以 $ 符号开头或结尾的数据 &ndash;&gt;-->
+                <!--<configuration>-->
+                    <!--<delimiters>-->
+                        <!--<delimit>$</delimit>-->
+                    <!--</delimiters>-->
+                <!--</configuration>-->
+            <!--</plugin>-->
+
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-resources-plugin</artifactId>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <!-- 热部署插件设置，如果没有该配置，则热部署的devtools不生效 -->
                 <configuration>
-                    <delimiters>
-                        <delimit>$</delimit>
-                    </delimiters>
+                    <fork>true</fork>
                 </configuration>
             </plugin>
         </plugins>

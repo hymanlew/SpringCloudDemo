@@ -25,6 +25,9 @@ import org.springframework.cloud.netflix.eureka.server.EnableEurekaServer;
  * Service Provider 服务提供方将自身服务注册到 Eureka，从而使服务消费方能够找到。
  * Service Consumer 服务消费方从 Eureka 获取注册服务列表，从而能够消费服务。
  *
+ * Eureka 的自我保护机制（）
+ *
+ *
  * @EnableEurekaServer, eureka 服务器端启动类，接受其它微服务注册进来。
  */
 @SpringBootApplication

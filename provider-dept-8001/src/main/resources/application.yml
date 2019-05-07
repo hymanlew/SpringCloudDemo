@@ -9,7 +9,7 @@ mybatis:
 spring:
   application:
 #   这个名字很重要，是注册到注册中心必须用到的
-    name: provider-dept
+    name: microservice-provider-dept
   datasource:
 #   数据源基本配置
     username: root
@@ -42,12 +42,18 @@ eureka:
       defaultZone: http://localhost:7001/eureka
 #       defaultZone: http://eureka7001.com:7001/eureka/,http://eureka7002.com:7002/eureka/,http://eureka7003.com:7003/eureka/
   instance:
-    instance-id: consumer-dept-80
-    prefer-ip-address: true     #访问路径可以显示IP地址
-#
-#info:
-#  app.name: atguigu-microservicecloud
-#  company.name: www.atguigu.com
-#  build.artifactId: $project.artifactId$
-#  build.version: $project.version$
+    # 自定义在注册中心页面显示的微服务的名称
+    instance-id: provider-dept-8001
+    # 设置显示微服务名称链接的访问路径 IP 地址
+    prefer-ip-address: true
+
+# 自定义显示项目的描述信息，需要注意，要在父工程中进行资源访问的配置（resources 标签加 maven-resources-plugin 插件）
+info:
+  service:
+    name: hyman-microservicecloud
+    ipname: www.hyman.com
+  build:
+    artifactId: @project.artifactId@
+    version: @project.version@
+    description: @project.description@
 
