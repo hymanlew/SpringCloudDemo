@@ -15,7 +15,12 @@ public class DeptController_consumer {
     @Autowired
     private RestTemplate restTemplate;
 
-    private static final String REST_URL_PREFIX = "http://localhost:8001/dept";
+    // 单机版的配置，只有一个 eureka 注册中心时
+    //private static final String REST_URL_PREFIX = "http://localhost:8001/dept";
+
+    // 微服务配置，多个 eureka 注册中心时，注意该名称是在 spring 中配置的名字，而不是在 eureka 中自定义的名字。
+    // Ribbon 和 eureka 整合后，consumer 可以直接调用服务而不用再关心地址和端口号
+    private static final String REST_URL_PREFIX = "http://microservice-provider-dept/dept";
 
     @GetMapping("/getById/{id}")
     public Department findById(@PathVariable("id") Integer id){
