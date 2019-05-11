@@ -25,7 +25,18 @@ import org.springframework.cloud.netflix.eureka.server.EnableEurekaServer;
  * Service Provider 服务提供方将自身服务注册到 Eureka，从而使服务消费方能够找到。
  * Service Consumer 服务消费方从 Eureka 获取注册服务列表，从而能够消费服务。
  *
- * Eureka 的自我保护机制（）
+ * Eureka 的自我保护机制（好死不如赖活着）：
+ * 某个时刻某个微服务不可用了，eureka 不会立刻清理，而是依旧会对该微服务的信息进行保存。进行留存。
+ * 默认情况下，如果 EurekaServer 在一定时间内没有接收到某个微服务实例的心跳，则 EurekaServer 将注销该实例（默认 90 秒）。但是
+ * 当网络分区故障发生时，微服务与 EurekaServer 之间无法正常通信，以上行为就可能非常危险（因为微服务本身是健康的，此时就不应该注
+ * 销该微服务）。
+ * 所以 Eureka 通过自我保护模式来解决此问题，当 EurekaServer 节点在短时间内丢失过多客户端时（可能发生了网络分区故障），那么这个
+ * 节点就会进入自我保护模式。一旦进入该模式，EurekaServer 就会保护服务注册表中的信息，不再删除其中的数据（也就是不会注销任何微
+ * 服务）。当网络故障恢复后它收到的心跳数重新恢复到阈值以上时，该 EurekaServer 节点会自动退出自我保护模式。
+ * 综上，自我保护模式是一种应对网络异常的安全保护措施，其设计哲学就是宁可保留错误的服务注册信息（即同时保留所有微服务，健康的不
+ * 健康的都会保留），也不盲目注销任何可能健康的服务实例，即好死不如赖活着。自我保护模式使得 Eureka 集群更加的健壮，稳定。
+ *
+ * 在 springcloud 中，可以使用 eureka.server.enable-self-preservation= false 来禁用自我保护模式。
  *
  *
  * @EnableEurekaServer, eureka 服务器端启动类，接受其它微服务注册进来。

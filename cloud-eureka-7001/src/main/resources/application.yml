@@ -1,16 +1,35 @@
+
 server:
   port: 7001
+
+
+# 这里要注意如果是只有一个注册中心时（即单机版的）则直接使用 localhost 没问题。但如果是集群的形式（多个注册中心）则需要修
+# 改系统中的 hosts 文件（C:\WINDOWS\System32\drivers\etc），来增加注册中心与本机的映射（127.0.0.1 eureka7001）。
+#eureka:
+#  client:
+#    service-url:
+#      # http://localhost:7001/eureka，设置与 eureka server 交互的地址，查询服务和注册服务都需要这个地址
+#       defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
+#    # false 表示不向注册中心注册自己
+#    register-with-eureka: false
+#    # false 表示自己就是注册中心，我的职责就是维护服务实例，并不需要去检索服务
+#    fetch-registry: false
+#  instance:
+##     eureka 服务端的实例名称 localhost
+#    hostname: localhost
+##  server:
+##     禁用自我保护模式
+##    enable-self-preservation: false
+
 
 eureka:
   client:
     service-url:
       # http://localhost:7001/eureka，设置与 eureka server 交互的地址，查询服务和注册服务都需要这个地址
-       defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
+       defaultZone: http://eureka7002:7002/eureka/, http://eureka7003:7003/eureka/
     # false 表示不向注册中心注册自己
     register-with-eureka: false
     # false 表示自己就是注册中心，我的职责就是维护服务实例，并不需要去检索服务
     fetch-registry: false
   instance:
-    # eureka 服务端的实例名称
-    hostname: localhost
-
+    hostname: eureka7001

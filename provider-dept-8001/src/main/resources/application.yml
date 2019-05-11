@@ -8,7 +8,7 @@ mybatis:
 
 spring:
   application:
-#   这个名字很重要，是注册到注册中心必须用到的
+#   这个名字很重要，是注册到注册中心必须用到的，也是服务发现时用到的名字
     name: microservice-provider-dept
   datasource:
 #   数据源基本配置
@@ -39,13 +39,16 @@ eureka:
   # 客户端注册进 eureka 服务列表内
   client:
     service-url:
-      defaultZone: http://localhost:7001/eureka
-#       defaultZone: http://eureka7001.com:7001/eureka/,http://eureka7002.com:7002/eureka/,http://eureka7003.com:7003/eureka/
+#    单机版，只有一个注册中心时
+#      defaultZone: http://localhost:7001/eureka
+#     集群版，同时有多个注册中心时
+      defaultZone: http://eureka7001:7001/eureka/,http://eureka7002:7002/eureka/,http://eureka7003:7003/eureka/
   instance:
     # 自定义在注册中心页面显示的微服务的名称
     instance-id: provider-dept-8001
     # 设置显示微服务名称链接的访问路径 IP 地址
     prefer-ip-address: true
+
 
 # 自定义显示项目的描述信息，需要注意，要在父工程中进行资源访问的配置（resources 标签加 maven-resources-plugin 插件）
 info:

@@ -31,4 +31,10 @@ public class DeptController_consumer {
     public boolean save(@RequestBody Department department){
         return restTemplate.postForObject(REST_URL_PREFIX + "/save", department, boolean.class);
     }
+
+    // 消费者调用服务发现
+    @RequestMapping("/discovery")
+    public Object discovery(){
+        return  restTemplate.getForObject(REST_URL_PREFIX + "/discovery", Object.class);
+    }
 }
