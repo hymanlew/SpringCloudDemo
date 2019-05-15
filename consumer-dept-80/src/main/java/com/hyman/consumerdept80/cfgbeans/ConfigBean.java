@@ -1,5 +1,7 @@
 package com.hyman.consumerdept80.cfgbeans;
 
+import com.netflix.loadbalancer.IRule;
+import com.netflix.loadbalancer.RandomRule;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -26,6 +28,18 @@ import org.springframework.web.client.RestTemplate;
  *
  * 从 Ribbon 默认的轮询方法可以看出，它是一个软负载均衡的客户端组件，它可以和其他所需请求的客户端结合使用，和 eureka 结合只是其
  * 中的一个实例。
+ * IRule：是根据特定算法，从服务列表中选取一个要访问的服务。它默认包含了 7 种算法：
+ * 1，RoundRobinRule：轮询。
+ * 2，RandomRule：随机。
+ * 3，AvailabilityFilteringRule：会先过滤掉由于多次访问故障而处于断路器跳闸状态的服务，和并发连接数量超过阈值的服务，然后对剩
+ *    余的服务列表按照轮询策略进行访问。
+ * 4，WeightedResponseTimeRule：根据平均响应时间计算所有服务的权重，响应越快服务权重越大，被选中的机率越大。刚启动时如果统计信
+ *    息不足，则使用轮询策略。等统计信息足够会自动切换到本策略。
+ * 5，RetryRule：先按照轮询策略获取服务，如果获取失败则在指定时间内进行重试，超过时间后则会忽略失败的服务，而使用其他可用的服务。
+ * 6，BestAvailableRule：先过滤掉由于多次访问故障而处于断路器跳闸状态的服务，然后选择一个并发量最小的服务。
+ * 7，ZoneAvoidanceRule：默认规则，复合判断 server 所在区域的性能和 server 的可用性选择服务器。
+ *
+ * 各算法原码解析：https://blog.csdn.net/weixin_41131531/article/details/89639699。
  *
  *
  * 相应的在中间件如 dubbo，cloud中均提供了负载均衡，其中 cloud 的负载均衡算法可以自定义。
@@ -42,5 +56,11 @@ public class ConfigBean {
         // 它提供了多种便捷访问远程 HTTP 服务的方法。是一种简单便捷的访问 restful 服务模版类，是spring 提供的用于访问 rest 服
         // 务的客户端模版工具集。
         return new RestTemplate();
+    }
+
+    // 显示声明一个负载的算法，它将会替换掉默认的轮询算法（需要重新启动所有的服务）。
+    @Bean
+    public IRule changeRule(){
+        return new RandomRule();
     }
 }
