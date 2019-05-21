@@ -2,7 +2,9 @@ package com.hyman.consumerdeptfeign.controller;
 
 import com.hyman.cloudapi.entity.Department;
 import com.hyman.cloudapi.service.DeptClientService;
+import com.netflix.ribbon.proxy.annotation.Hystrix;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.openfeign.support.FallbackCommand;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
@@ -16,6 +18,7 @@ public class DeptController_consumer {
     private DeptClientService deptClientService;
 
     @GetMapping("/getById/{id}")
+    @Hystrix
     public Department findById(@PathVariable("id") Integer id){
         return deptClientService.findById(id);
     }

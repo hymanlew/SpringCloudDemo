@@ -27,6 +27,8 @@ import org.springframework.context.annotation.ComponentScan;
  *
  * Feign 集成了 Ribbon，前者利用后者维护了提供者微服务的服务列表信息，并且通过轮询实现了客户端的负载均衡。而两者不同的是，通过
  * Feign 只需要定义服务绑定接口且以声明式的方法，优雅而简单的实现了服务调用。
+ *
+ * Feign 自动集成了 Hystrix 服务，所以可以直接使用它。
  */
 
 @SpringBootApplication
