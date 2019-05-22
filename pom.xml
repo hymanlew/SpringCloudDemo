@@ -24,7 +24,8 @@
         <maven.compiler.target>1.8</maven.compiler.target>
         <junit.version>4.12</junit.version>
         <log4j.version>1.2.17</log4j.version>
-        <lombok.version>1.16.18</lombok.version>
+        <!-- 不要指定版本，因为 cloud 已经集成了最新版本，并且 IDEA 下载 lombok 插件时也是下载最新的 -->
+        <!--<lombok.version>1.16.18</lombok.version>-->
         <mysql.version>8.0.15</mysql.version>
         <java.version>1.8</java.version>
         <spring-cloud.version>Greenwich.SR1</spring-cloud.version>

@@ -13,7 +13,7 @@ import java.util.List;
  *
  * Feign 已经集成了hystrix服务，所以直接声明 fallback 返回操作即可。
  */
-@FeignClient(value = "microservice-provider-dept", fallback = HystrixServiceImp.class)
+@FeignClient(value = "microservice-provider-dept", fallbackFactory = HystrixFallback.class)
 @Component
 public interface DeptClientService {
 
