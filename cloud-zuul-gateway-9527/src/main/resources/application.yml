@@ -1,0 +1,41 @@
+server:
+  port: 9527
+
+spring:
+  application:
+#   这个名字很重要，是注册到注册中心必须用到的，也是服务发现时用到的名字
+    name: microservice-zuul-gateway
+
+eureka:
+  # 客户端注册进 eureka 服务列表内
+  client:
+    service-url:
+#     集群版，同时有多个注册中心时
+      defaultZone: http://eureka7001:7001/eureka/,http://eureka7002:7002/eureka/,http://eureka7003:7003/eureka/
+  instance:
+    # 自定义在注册中心页面显示的微服务的名称
+    instance-id: zuul-gateway-9527
+    # 设置显示微服务名称链接的访问路径 IP 地址
+    prefer-ip-address: true
+
+
+# 自定义显示项目的描述信息，需要注意，要在父工程中进行资源访问的配置（resources 标签加 maven-resources-plugin 插件）
+info:
+  service:
+    name: hyman-microservicecloud
+    ipname: www.hyman.com
+  build:
+    artifactId: @project.artifactId@
+    version: @project.version@
+    description: @project.description@
+
+# 开启路由映射，隐藏真实的请求路径
+zuul:
+  routes:
+    mydept.serviceId: microservice-provider-dept
+    mydept.path: /dept/**
+  # 禁止使用某个服务的真实路径进行访问
+#  ignored-services: microservice-provider-dept
+  # 禁止使用所有服务的真实路径进行访问
+  ignored-services: "*"
+  prefix: /hyman
