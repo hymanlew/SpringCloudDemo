@@ -2,6 +2,9 @@
 server:
   port: 7001
 
+spring:
+  application:
+    name: register-center-7001
 
 # 这里要注意如果是只有一个注册中心时（即单机版的）则直接使用 localhost 没问题。但如果是集群的形式（多个注册中心）则需要修
 # 改系统中的 hosts 文件（C:\WINDOWS\System32\drivers\etc），来增加注册中心与本机的映射（127.0.0.1 eureka7001）。
@@ -32,4 +35,38 @@ eureka:
     # false 表示自己就是注册中心，我的职责就是维护服务实例，并不需要去检索服务
     fetch-registry: false
   instance:
+    # 等同于 spring.application.name ？
     hostname: eureka7001
+    # 禁止直接使用 IP 进行访问
+    prefer-ip-address: false
+    instance-id: ${spring.cloud.client.ip-address}:${server.port}
+    lease-expiration-duration-in-seconds: 30
+    lease-renewal-interval-in-seconds: 5
+  server:
+    # 是否在系统中保留自己（服务）？
+    enable-self-preservation: false
+    eviction-interval-timer-in-ms: 5000
+
+logging.level.com.hyman:
+  eureka: OFF
+  discovery: OFF
+
+
+
+# 在 defaultZone 中添加用户名密码认证（使用 Spring Security），格式：defaultZone：http://username:password@eureka:8761/eureka/
+
+# 此时 eureka 注册实例会出现在 unavailable-replicas 里面，这是因为加入了安全认证模块后，默认会开启 CSRF 跨站脚本攻击，需要禁用它，
+# 添加以 下配置即可。
+# 参考：https://cloud.spring.io/spring-cloud-netflix/multi/multi_spring-cloud-eureka-server.html#_securing_the_eureka_server
+
+# @EnableWebSecurity
+# class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+#
+#    @Override
+#    protected void configure(HttpSecurity http) throws Exception {
+#        http.csrf().ignoringAntMatchers("/eureka/**");
+#        super.configure(http);
+#    }
+#
+# }
+# 这样配置后，打开 Eureka 控制台页面会先要跳到登录页面做登录认证才能访问。
