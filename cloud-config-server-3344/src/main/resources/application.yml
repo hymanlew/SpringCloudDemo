@@ -1,0 +1,61 @@
+server:
+  port: 3344
+
+spring:
+  application:
+#   这个名字很重要，是注册到注册中心必须用到的，也是服务发现时用到的名字。并且必须要对外显露统一的服务实例名称，不能更改。
+    name: microservice-config-server
+  cloud:
+    config:
+      server:
+        git:
+#         github 上的 git 仓库的名字（即是一个单独的 yml 配置文件项目，没有其他东西），即使本项目自动更新 git 的 yml 配置
+          uri: git@github.com:hyman/SpringCloudConfig.git
+
+
+# git 上 server 端的 yml 配置（application.yml）
+#---
+#spring:
+#  profiles:
+#    active: dev
+#
+#---
+#spring:
+#  profiles: dev
+#  application:
+#    name: microservice-config-server-dev
+#
+#---
+#spring:
+#  profiles: test
+#  application:
+#    name: microservice-config-server-test
+
+
+# git 上 client 端的 yml 配置（microservice-config-client.yml）
+#---
+#spring:
+#  profiles:
+#    active: dev
+#
+#---
+#spring:
+#  profiles: dev
+#  application:
+#    name: microservice-config-client
+#server:
+#  port: 8201
+#eureka:
+#  client:
+#    service-url: http://eureka-dev.com:7001/eureka
+#
+#---
+#spring:
+#  profiles: test
+#  application:
+#    name: microservice-config-client
+#server:
+#  port: 8202
+#eureka:
+#  client:
+#    service-url: http://eureka-test.com:7001/eureka

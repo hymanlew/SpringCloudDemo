@@ -1,7 +1,8 @@
-package com.hyman.cloudconfig3344;
+package com.hyman.cloudconfigserver3344;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.config.server.EnableConfigServer;
 
 /**
  * 分布式系统面临的配置问题：
@@ -24,10 +25,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * 5，将配置信息以 REST 接口的形式暴露。
  */
 @SpringBootApplication
-public class CloudConfig3344Application {
+@EnableConfigServer
+public class CloudConfigServer3344Application {
 
 	public static void main(String[] args) {
-		SpringApplication.run(CloudConfig3344Application.class, args);
+		SpringApplication.run(CloudConfigServer3344Application.class, args);
 	}
 
 }
