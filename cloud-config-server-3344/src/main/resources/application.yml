@@ -59,3 +59,94 @@ spring:
 #eureka:
 #  client:
 #    service-url: http://eureka-test.com:7001/eureka
+
+
+# git 上 eureka-client 端的 yml 配置（microservice-config-eureka-client.yml）
+#---
+#spring:
+#  profiles:
+#    active: dev
+#
+#---
+#spring:
+#  profiles: dev
+#  application:
+#    name: microservice-config-eureka-client
+#server:
+#  port: 7001
+#eureka:
+#  instance:
+#    hostname: eureka7001
+#  client:
+#    # false 表示不向注册中心注册自己
+#    register-with-eureka: false
+#    # false 表示自己就是注册中心，我的职责就是维护服务实例，并不需要去检索服务
+#    fetch-registry: false
+#    service-url:
+#        defaultZone: http://eureka7001:7001/eureka/
+#
+#---
+#spring:
+#  profiles: test
+#  application:
+#    name: microservice-config-eureka-client
+#server:
+#  port: 7001
+#eureka:
+#  instance:
+#    hostname: eureka7001
+#  client:
+#    # false 表示不向注册中心注册自己
+#    register-with-eureka: false
+#    # false 表示自己就是注册中心，我的职责就是维护服务实例，并不需要去检索服务
+#    fetch-registry: false
+#    service-url:
+#        defaultZone: http://eureka7001:7001/eureka/
+
+
+# git 上 dept-client 端的 yml 配置（microservice-config-dept-client.yml）
+#---
+#spring:
+#  profiles:
+#    active: dev
+#
+#---
+#spring:
+#  profiles: dev
+#  application:
+#    name: microservice-config-dept-client
+#  datasource:
+#    username: root
+#    password: 123456
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#    url: jdbc:mysql://localhost:3306/test?serverTimezone=GMT%2B8&autoReconnect=true&rewriteBatchedStatements=true&allowMultiQueries=true&useSSL=false&useUnicode=true&characterEncoding=utf8&characterSetResults=utf-8
+#    type: com.alibaba.druid.pool.DruidDataSource
+#server:
+#  port: 8001
+#eureka:
+#  instance:
+#    # 自定义在注册中心页面显示的微服务的名称
+#    instance-id: dept-client-8001
+#    # 设置显示微服务名称链接的访问路径 IP 地址
+#    prefer-ip-address: true
+#  client:
+#    service-url:
+#        defaultZone: http://eureka7001:7001/eureka/
+#mybatis:
+#  config-location: classpath:mybatis-config.xml             # mybatis配置文件所在路径
+#  mapper-locations: classpath:mapper/*.xml                  # mapper映射文件
+
+#---
+#spring:
+#  profiles: test
+#  application:
+#    name: microservice-config-dept-client
+#server:
+#  port: 8001
+#eureka:
+#  instance:
+#    instance-id: dept-client-8001
+#    prefer-ip-address: true
+#  client:
+#    service-url:
+#        defaultZone: http://eureka7001:7001/eureka/

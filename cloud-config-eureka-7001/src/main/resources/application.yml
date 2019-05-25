@@ -1,0 +1,7 @@
+
+spring:
+  application:
+#   这个名称必须与 github 上对应的配置的名称一致，否则无法正常加载
+    name: microservice-config-eureka-client
+
+
