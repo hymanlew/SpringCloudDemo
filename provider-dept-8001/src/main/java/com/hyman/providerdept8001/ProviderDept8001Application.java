@@ -6,6 +6,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 
+/**
+ * @EnableDiscoveryClient 注解是通用性的服务发现，可以支持其他的服务发现组件。
+ * @EnableEurekaClient 注解是专属的 eureka 服务发现，不支持其他的服务发现。
+ */
 @SpringBootApplication
 @MapperScan(basePackages = "com.hyman.providerdept8001.dao")
 @EnableEurekaClient
