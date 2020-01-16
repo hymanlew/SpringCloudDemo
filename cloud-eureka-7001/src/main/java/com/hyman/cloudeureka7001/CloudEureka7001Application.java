@@ -21,7 +21,7 @@ import org.springframework.cloud.netflix.eureka.server.EnableEurekaServer;
  * 系统中各个微服务是否正常运行。SpringCloud 的其他模块（zuul 等等）就可通过 Eureka Server 来发现系统中的其他微服务，并执行相
  * 关的逻辑。
  *
- * Eureka Server 提供服务注册与发现。
+ * Eureka Server 提供服务注册与发现。并且也可以将其他语言编写的微服务注册到 Eureka 中（Eureka REST operations 接口，或者使用 sidecar 附加服务组件）。
  * Service Provider 服务提供方将自身服务注册到 Eureka，从而使服务消费方能够找到。
  * Service Consumer 服务消费方从 Eureka 获取注册服务列表，从而能够消费服务。
  *

@@ -31,10 +31,9 @@ import org.springframework.context.annotation.ComponentScan;
  * Feign 自动集成了 Hystrix 服务，所以可以直接使用它。
  */
 
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = "com.hyman")
 @EnableEurekaClient
 @EnableFeignClients(basePackages = {"com.hyman.consumerdeptfeign"})
-@ComponentScan("com.hyman.consumerdeptfeign")
 public class ConsumerDeptFeignApplication {
 
 	public static void main(String[] args) {
