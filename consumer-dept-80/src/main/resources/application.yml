@@ -19,3 +19,8 @@ eureka:
     instance-id: consumer-dept-80
     # 设置显示微服务名称链接的访问路径 IP 地址
     prefer-ip-address: true
+
+# 通过配置文件指定提供者的负载均衡算法，而不再需要进行编码（只适用于低版本 cloud）
+#microservice-provider-dept:
+#  ribbon:
+#    NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RandomRule
