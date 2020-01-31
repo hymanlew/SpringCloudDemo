@@ -49,4 +49,17 @@ eureka:
     prefer-ip-address: true
 
 
+# 如果配置ribbon的重试，hystrix的超时时间要大于ribbon的超时时间，ribbon才会重试
+hystrix:
+  command:
+#   default全局有效，service id指定应用有效
+    default:
+      execution:
+        timeout:
+#         如果 enabled 设置为 false，则请求超时交给 ribbon控制。如果为 true，则超时作为熔断根据
+          enabled: true
+        isolation:
+          thread:
+#           断路器超时时间，默认1000ms
+            timeoutInMilliseconds: 3000
 

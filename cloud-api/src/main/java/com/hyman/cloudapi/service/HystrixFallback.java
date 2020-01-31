@@ -9,6 +9,9 @@ import java.util.List;
 /**
  * 使用实现 FallbackFactory 的方式统一对 service 接口层的熔断机制进行处理，从而避免对方法使用 @HystrixCommand 强耦合的方式进
  * 行操作。实现业务执行方法与熔断机制的解耦。
+ *
+ * 要特别注意：自定义的 FallbackFactory 实现类不能放在 @ComponentScan 扫描的当前包及其子包下（即主启动类所在的包及其子包）。否
+ * 则此自定义配置类就会被所有的 FeignClient 客户端所共享，也就是说这就达不到特殊化定制的目的了。
  */
 // 这个注解必须有，并且很重要。
 @Component

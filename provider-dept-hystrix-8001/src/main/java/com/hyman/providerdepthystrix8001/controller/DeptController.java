@@ -4,6 +4,7 @@ import com.hyman.cloudapi.entity.Department;
 import com.hyman.providerdepthystrix8001.service.DeptService;
 //import com.netflix.ribbon.proxy.annotation.Hystrix;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
@@ -22,9 +23,13 @@ public class DeptController {
     @Autowired
     private DiscoveryClient client;
 
-    // 一旦调用服务方法失败并抛出异常后，会自动调用 fallback 指定的方法。
+    // 一旦调用服务方法失败并抛出异常后，会自动调用 fallback 指定的方法。并且默认超时时间为 1 秒，这里设置为 3 秒。
     @GetMapping("/getById/{id}")
-    @HystrixCommand(fallbackMethod = "hystrixMethod")
+    @HystrixCommand(
+            fallbackMethod = "hystrixMethod",
+            commandProperties ={
+                    @HystrixProperty(name="execution.isolation.thread.timeoutInMilliseconds", value="3000")
+            })
     public Department findById(@PathVariable("id") Integer id){
 
         Department department = deptService.findById(id);
