@@ -1,14 +1,22 @@
 
-# application.yml 是用户级别的资源配置
-# bootstrap.yml 是系统级别的资源配置，优先级更高
-
-# SpringCloud 会创建一个 Bootstrap Context 作为 spring 应用的 Application Context 的父上下文。初始化的时候 Bootstrap Context
-# 负责从外部源加载配置属性并解析配置。这两个上下文共享一个从外部获取的 Environment。
-# Bootstrap 属性有更高的优先级，默认它们不会被本地配置覆盖。Bootstrap Context 和 Application Context 有着不同的约定。
-# 所以新增了一个 Bootstrap.yml 文件，保证 Bootstrap Context 和 Application Context 配置的分离。
+server:
+  port: 3355
 
 spring:
   application:
 #   这个名字很重要，是注册到注册中心必须用到的，也是服务发现时用到的名字。并且必须要对外显露统一的服务实例名称，不能更改。
     name: microservice-config-client
 
+eureka:
+  # 客户端注册进 eureka 服务列表内
+  client:
+    service-url:
+      # 单机版，只有一个注册中心时
+      # defaultZone: http://localhost:7001/eureka
+      # 集群版，同时有多个注册中心时
+      defaultZone: http://eureka7001:7001/eureka/,http://eureka7002:7002/eureka/,http://eureka7003:7003/eureka/
+  instance:
+    # 自定义在注册中心页面显示的微服务的名称
+    instance-id: config-client-3355
+    # 设置显示微服务名称链接的访问路径 IP 地址
+    prefer-ip-address: true

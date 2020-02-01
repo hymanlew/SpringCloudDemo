@@ -11,14 +11,14 @@ public class ConfigClientRest {
     @Value("${spring.application.name}")
     private String applicationName;
 
-    @Value("${eureka.client.server-url.defaultZone}")
-    private String eurekaServers;
+    @Value("${eureka.client.service-url.defaultZone}")
+    private String[] eurekaServers;
 
     @Value("${server.port}")
     private String port;
 
     @RequestMapping("/config")
     public String getConfig() {
-        return applicationName + "---" + eurekaServers + "---" + port + "---";
+        return applicationName + "---" + String.join(",", eurekaServers) + "---" + port + "---";
     }
 }
