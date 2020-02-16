@@ -26,10 +26,6 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-starter-netflix-ribbon</artifactId>
-		</dependency>
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -38,7 +34,7 @@
 			<optional>true</optional>
 		</dependency>
 
-		<!-- 将微服务provider侧注册进eureka -->
+		<!-- 将微服务provider侧注册进eureka，另外 eureka 自身已经集成了 ribbon，所以不需要另外导入 ribbon 的 jar 包 -->
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>

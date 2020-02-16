@@ -54,9 +54,15 @@ eureka:
     enable-self-preservation: false
     eviction-interval-timer-in-ms: 5000
 
-logging.level.com.hyman:
-  eureka: OFF
-  discovery: OFF
+logging:
+  level:
+    root: info
+    org.hibernate: info
+    org.hibernate.type.descriptor.sql.BasicBinder: trace
+    org.hibernate.type.descriptor.sql.BasicExtractor: trace
+    com.hyman: debug
+    com.hyman.eureka: OFF
+    com.hyman.discovery: OFFs
 
 
 

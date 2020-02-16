@@ -56,6 +56,7 @@ public class MyConfigRule extends AbstractLoadBalancerRule {
                 // 自定义负载算法策略（例如每个服务都要执行 5 次，才交给下一个服务去执行）
                 if(times < 5){
                     server = (Server)upList.get(currentServerIndex);
+                    System.out.println("=== "+ server.getHost() +"："+ server.getPort() +"："+ server.getId() + " ===");
                     times++;
                 }else{
                     times = 0;

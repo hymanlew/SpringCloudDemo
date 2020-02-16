@@ -43,6 +43,10 @@ eureka:
 #      defaultZone: http://localhost:7001/eureka
 #     集群版，同时有多个注册中心时（其中 eureka7001 设置了登录验证）
       defaultZone: http://admin:admin@eureka7001:7001/eureka/,http://eureka7002:7002/eureka/,http://eureka7003:7003/eureka/
+#   使用 actuator 功能
+    healthcheck:
+      enabled: true
+
   instance:
     # 自定义在注册中心页面显示的微服务的名称
     instance-id: provider-dept-8001
@@ -50,7 +54,7 @@ eureka:
     prefer-ip-address: true
 
 
-# 自定义显示项目的描述信息，需要注意，要在父工程中进行资源访问的配置（resources 标签加 maven-resources-plugin 插件）
+# 使用 actuator 功能自定义显示项目的描述信息，需要注意，要在父工程中进行资源访问的配置（resources 标签加 maven-resources-plugin 插件）
 info:
   service:
     name: hyman-microservicecloud

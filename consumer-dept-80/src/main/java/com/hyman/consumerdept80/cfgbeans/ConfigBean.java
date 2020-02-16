@@ -8,7 +8,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.client.RestTemplate;
 
 /**
- * SpringCloud Ribbon 是一套客户端的负载均衡的工具，其主要功能是提供客户端的软负载均衡算法，将 netfix 的中间层服务连接起来。
+ * SpringCloud Ribbon 是一套客户端的负载均衡的工具（所以配置在 consumer 端），其主要功能是提供客户端的软负载均衡算法，将 netfix
+ * 的中间层服务连接起来。
  * ribbon 客户端组件提供一系列完善的配置项如连接超时，重试等等。简单来说就是在配置文件中列出 load balancer（LB 负载均衡）后面
  * 所有的机器，Ribbon 会自动的帮助你基于（遵循）某种规则（如简单轮询，随机连接等）去连接这些机器。我们也很容易使用 Ribbon 实现
  * 自定义的负载均衡算法。

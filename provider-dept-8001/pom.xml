@@ -23,10 +23,17 @@
 			<artifactId>cloud-api</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
+
 		<!-- actuator 监控信息完善 -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-actuator</artifactId>
+			<!--<exclusions>-->
+				<!--<exclusion>-->
+					<!--<artifactId>spring-boot-starter-logging</artifactId>-->
+					<!--<groupId>org.springframework.boot</groupId>-->
+				<!--</exclusion>-->
+			<!--</exclusions>-->
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
