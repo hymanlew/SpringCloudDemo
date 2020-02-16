@@ -6,6 +6,13 @@ spring:
   application:
     name: register-center-7001
 
+#设置eurekaServer的登录密码:
+  security:
+    user:
+      name: admin  # 用户名
+      password: admin   # 用户密码
+
+
 # 这里要注意如果是只有一个注册中心时（即单机版的）则直接使用 localhost 没问题。但如果是集群的形式（多个注册中心）则需要修
 # 改系统中的 hosts 文件（C:\WINDOWS\System32\drivers\etc），来增加注册中心与本机的映射（127.0.0.1 eureka7001）。
 #eureka:

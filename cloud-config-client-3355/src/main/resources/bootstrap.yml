@@ -17,7 +17,6 @@ spring:
       profile: dev
 #     git 下的哪个分支，默认为 master
       label: master
-#     本微服务启动后先去找 3344 端口号的服务，通过 springcloudconfig 获取 github 的服务地址
-#      url: http://config-3344.com:3344
+#     本微服务启动后先去找 3344 端口号的服务，通过 cloud-config-server-3344 项目的 application 文件中获取 github 的服务地址
       url: http://microservice-config-server:3344
 
