@@ -16,9 +16,14 @@ import java.util.List;
  *
  * Feign 已经集成了hystrix服务，所以直接声明 fallback 返回操作即可。
  *
- * 其中心概念就是命名客户端，每个 feign client 都是整体的一部分，它们一起工作以按需联系远程服务器，并且该整体具有一个名称，即使
- * 用 @feignclient 命名。spring cloud 根据需要使用 FeignClient 的 Configuration 属性为每个命名的客户端创建一个新的整体作为
- * ApplicationContext。也包含其他 feign Encoder，feign Decoder 和 feign Contract。
+ * 其中心概念就是命名客户端，每个 feignclient 都是整体的一部分，它们一起工作以按需联系远程服务器，并且该整体具有一个名称（即
+ * feignclient 指定的名称）。SpringCloud 会按 name 及 Configuration 属性创建不同的 ApplicationContext，通过不同的 Context
+ * 来隔离 FeignClient 的配置信息，在使用配置类时，不能把配置类放到 ComponentScan 的路径下，否则配置类会对所有FeignClient生效。
+ *
+ * configuration: Feign配置类，也包含自定义的 feign 的 Encoder，Decoder，LogLevel 和 Contract。
+ * fallback: 定义容错的处理类，当调用远程接口失败或超时时，会调用对应接口的容错逻辑。并且指定的类必须实现 @FeignClient 标记的接口。
+ * fallbackFactory: 工厂类，用于生成fallback类示例，通过这个属性可以实现每个接口通用的容错逻辑，减少重复的代码。
+ * path: 定义当前FeignClient的统一前缀。
  */
 @FeignClient(value = "microservice-provider-dept", configuration = FeignConfig.class, fallbackFactory = HystrixFallback.class)
 @Component

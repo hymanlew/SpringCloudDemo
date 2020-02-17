@@ -97,7 +97,7 @@ spring:
 #    # false 表示自己就是注册中心，我的职责就是维护服务实例，并不需要去检索服务
 #    fetch-registry: false
 #    service-url:
-#        defaultZone: http://eureka7001:7001/eureka/
+#        defaultZone: http://admin:admin@eureka7001:7001/eureka/
 #
 #---
 #spring:
@@ -115,7 +115,7 @@ spring:
 #    # false 表示自己就是注册中心，我的职责就是维护服务实例，并不需要去检索服务
 #    fetch-registry: false
 #    service-url:
-#        defaultZone: http://eureka7001:7001/eureka/
+#        defaultZone: http://admin:admin@eureka7001:7001/eureka/
 
 
 # git 上 dept-client 端的 yml 配置（microservice-config-dept-client.yml）
@@ -145,7 +145,7 @@ spring:
 #    prefer-ip-address: true
 #  client:
 #    service-url:
-#        defaultZone: http://eureka7001:7001/eureka/
+#        defaultZone: http://admin:admin@eureka7001:7001/eureka/
 #mybatis:
 #  config-location: classpath:mybatis-config.xml             # mybatis配置文件所在路径
 #  mapper-locations: classpath:mapper/*.xml                  # mapper映射文件
@@ -163,4 +163,4 @@ spring:
 #    prefer-ip-address: true
 #  client:
 #    service-url:
-#        defaultZone: http://eureka7001:7001/eureka/
+#        defaultZone: http://admin:admin@eureka7001:7001/eureka/

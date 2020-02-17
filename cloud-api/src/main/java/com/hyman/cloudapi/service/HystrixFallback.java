@@ -1,7 +1,9 @@
 package com.hyman.cloudapi.service;
 
 import com.hyman.cloudapi.entity.Department;
+import feign.Logger;
 import feign.hystrix.FallbackFactory;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -42,5 +44,10 @@ public class HystrixFallback implements FallbackFactory<DeptClientService> {
                 return null;
             }
         };
+    }
+
+    @Bean
+    public Logger.Level feignLoggerLevel() {
+        return Logger.Level.FULL;
     }
 }

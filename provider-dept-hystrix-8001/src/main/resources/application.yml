@@ -41,7 +41,7 @@ eureka:
 #    单机版，只有一个注册中心时
 #      defaultZone: http://localhost:7001/eureka
 #     集群版，同时有多个注册中心时
-      defaultZone: http://eureka7001:7001/eureka/,http://eureka7002:7002/eureka/,http://eureka7003:7003/eureka/
+      defaultZone: http://admin:admin@eureka7001:7001/eureka/,http://eureka7002:7002/eureka/,http://eureka7003:7003/eureka/
   instance:
     # 自定义在注册中心页面显示的微服务的名称
     instance-id: provider-dept-8001-hystrix
@@ -49,10 +49,10 @@ eureka:
     prefer-ip-address: true
 
 
-# 如果配置ribbon的重试，hystrix的超时时间要大于ribbon的超时时间，ribbon才会重试
+# 如果配置ribbon的重试，hystrix的超时时间要大于ribbon的超时时间，ribbon才会重试。Hystrix 默认的超时时间是 1秒。
 hystrix:
   command:
-#   default全局有效，service id指定应用有效
+#   default全局有效，service id 指定应用有效
     default:
       execution:
         timeout:
