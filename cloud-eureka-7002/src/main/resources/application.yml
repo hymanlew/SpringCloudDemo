@@ -6,8 +6,7 @@ spring:
   application:
     name: register-center-7002
 
-# eureka 服务端的实例名称，这里要注意如果是只有一个注册中心时（即单机版的）则直接使用没问题。但如果是集群的形式（多个注册中
-# 心）则需要修改系统中的 hosts 文件（C:\WINDOWS\System32\drivers\etc），来增加注册中心与本机的映射（127.0.0.1 eureka7002.com）。
+# 集群模式，注意一定要修改 host 文件（C:\WINDOWS\System32\drivers\etc），增加注册中心与本机的映射（127.0.0.1 eureka7002）
 eureka:
   client:
     service-url:

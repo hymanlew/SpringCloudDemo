@@ -13,8 +13,8 @@ spring:
       password: admin   # 用户密码
 
 
-# 这里要注意如果是只有一个注册中心时（即单机版的）则直接使用 localhost 没问题。但如果是集群的形式（多个注册中心）则需要修
-# 改系统中的 hosts 文件（C:\WINDOWS\System32\drivers\etc），来增加注册中心与本机的映射（127.0.0.1 eureka7001）。
+# 当只有一个注册中心时（即单机版的）则直接使用 localhost 没问题。但如果是集群的形式（多个注册中心）则需要修改系统中的 hosts 文
+# 件（C:\WINDOWS\System32\drivers\etc），来增加注册中心与本机的映射（127.0.0.1 eureka7001）。
 #eureka:
 #  client:
 #    service-url:
@@ -28,10 +28,11 @@ spring:
 ##     eureka 服务端的实例名称 localhost
 #    hostname: localhost
 ##  server:
-##     禁用自我保护模式
+##    禁用自我保护模式
 ##    enable-self-preservation: false
 
 
+# 集群模式，注意一定要修改 host 文件，增加注册中心与本机的映射（127.0.0.1 eureka7001）。
 eureka:
   client:
     service-url:
@@ -42,15 +43,18 @@ eureka:
     # false 表示自己就是注册中心，我的职责就是维护服务实例，并不需要去检索服务
     fetch-registry: false
   instance:
-    # 等同于 spring.application.name ？
+    # 自定义要显示的主机名
     hostname: eureka7001
     # 禁止直接使用 IP 进行访问
     prefer-ip-address: false
     instance-id: ${spring.cloud.client.ip-address}:${server.port}
-    lease-expiration-duration-in-seconds: 30
-    lease-renewal-interval-in-seconds: 5
+    # eureka 心跳失败时间，超时则显示服务不可用，断开
+    lease-expiration-duration-in-seconds: 90
+    # eureka 检测心跳的时间，建议使用默认值 30 秒不要更改，因为会影响性能。不要用在生产环境。
+    # 值越小则将加快客户端连接到其他服务的过程。在生产中最好坚持使用默认值，因为服务器中的内部计算会对租约续订期进行假设。
+    lease-renewal-interval-in-seconds: 30
   server:
-    # 是否在系统中保留自己（服务）？
+    # 禁用自我保护模式
     enable-self-preservation: false
     eviction-interval-timer-in-ms: 5000
 

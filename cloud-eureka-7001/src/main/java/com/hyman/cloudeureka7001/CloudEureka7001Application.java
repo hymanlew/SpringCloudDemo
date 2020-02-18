@@ -90,6 +90,9 @@ import org.springframework.cloud.netflix.eureka.server.EnableEurekaServer;
  * 3，当网络稳定时，当前实例新的注册信息会被同步到其它节点中。
  * 因此 eureka 可以很好的应对因网络故障导致部分节点失去联系的情况，而不会像 zk 那样使整个注册服务瘫痪。
  *
+ * eureka 高可用：Eureka 服务器没有后端存储，所以注册表中的服务实例都必须发送心跳信号以保持其注册是最新的（所以这可以在内存中完
+ * 成）。客户机还有一个Eureka注册的内存缓存（因此他们不必为每个服务请求都去注册中心）。
+ *
  * @EnableEurekaServer, eureka 服务器端启动类，接受其它微服务注册进来。
  */
 @SpringBootApplication

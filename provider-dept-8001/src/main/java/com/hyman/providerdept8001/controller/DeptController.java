@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import java.util.List;
 
+
 @RestController
 @RequestMapping("/dept")
 public class DeptController {
@@ -19,9 +20,16 @@ public class DeptController {
     @Autowired
     private DeptService deptService;
 
-    // 对于注册进 eureka 里面的微服务，可以通过服务发现来获得该服务的信息。
+    /**
+     * 不要在 @PostConstruct 方法或 @Scheduled 方法（或 ApplicationContext 可能尚未启动的任何地方）中使用 EurekaClient。
+     * 它在 SmartLifecycle 中初始化（phase=0），因此最早可以依赖它的可用性是在另一个具有更高阶段的 SmartLifecycle 中。
+     */
     @Resource
     private EurekaClient eurekaClient;
+
+    /**
+     * 对于注册进 eureka 里面的微服务，可以通过服务发现来获得该服务的信息。
+     */
     @Autowired
     private DiscoveryClient client;
 
