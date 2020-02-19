@@ -6,7 +6,7 @@ spring:
   application:
     name: register-center-7002
 
-# 集群模式，注意一定要修改 host 文件（C:\WINDOWS\System32\drivers\etc），增加注册中心与本机的映射（127.0.0.1 eureka7002）
+# 集群模式
 eureka:
   client:
     service-url:
@@ -17,6 +17,7 @@ eureka:
     # false 表示自己就是注册中心，我的职责就是维护服务实例，并不需要去检索服务
     fetch-registry: false
   instance:
+    # 自定义要使用的主机名，用于客户端访问。注意一定要修改 host 文件，增加注册中心与本机的映射（127.0.0.1 eureka7002）
     hostname: eureka7002
 #  server:
     # 禁用自我保护模式
