@@ -43,7 +43,7 @@ eureka:
 #      defaultZone: http://localhost:7001/eureka
 #     集群版，同时有多个注册中心时（其中 eureka7001 设置了登录验证）
       defaultZone: http://admin:admin@eureka7001:7001/eureka/,http://eureka7002:7002/eureka/,http://eureka7003:7003/eureka/
-#   使用 eureka 检查功能，注意一定要配置在 application.xml 中，不能在 bootstrap，否则会有未知的错误
+#   使用 eureka 检查功能（需要有 actuator 依赖），注意一定要配置在 application.xml 中，不能在 bootstrap，否则会有未知的错误
     healthcheck:
       enabled: true
 
@@ -52,6 +52,11 @@ eureka:
     instance-id: provider-dept-8001
     # 设置显示微服务名称链接的访问路径 IP 地址
     prefer-ip-address: true
+    # eureka 心跳失败时间，超时则在注册中心显示本服务不可用，断开。不要用在生产环境
+    lease-expiration-duration-in-seconds: 90
+    # eureka 检测心跳的时间，建议使用默认值 30 秒不要更改，因为会影响性能。不要用在生产环境
+    # 值越小则将加快客户端连接到其他服务的过程。在生产中最好坚持使用默认值，因为服务器中的内部计算会对租约续订期进行假设。
+    lease-renewal-interval-in-seconds: 30
     # Eureka 实例自身的状态页和健康指示器分别默认为 /info 和 /health，这是Spring Boot执行器应用程序中有用端点的默认位置
     statusPageUrlPath: ${server.servletPath}/info
     healthCheckUrlPath: ${server.servletPath}/health

@@ -35,10 +35,15 @@ public interface DeptClientService {
     //@PostMapping("/findAll")
     //public List<Department> findall();
 
+    /**
+     * Feign 暂不支持复杂对象作为参数？（待确认）
+     */
     @GetMapping("/save")
     public boolean save(@RequestBody Department department);
 
-    // 消费者调用服务发现
+    /**
+     * 消费者调用服务发现
+     */
     @RequestMapping("/discovery")
     public Object discovery();
 

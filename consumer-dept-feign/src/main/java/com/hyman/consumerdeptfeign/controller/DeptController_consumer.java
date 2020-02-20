@@ -24,6 +24,8 @@ public class DeptController_consumer {
      * 当 FeignClient 中的路径使用 @RequestMapping 时，则 controller 中访问的路径不能与前者完全相同。因为这样，当请求头为
      * Accept:application/json 时，就会报 404。或者在 FeignClient 上使用原生注解 @RequestLine，也可以解决此问题。
      * 最主要的是要保证入参能够顺利传递进去即可。
+     *
+     * 并且在使用 @PathVariable 注解时，要指定其 value。
      */
     @GetMapping("/getById/{id}")
     @Hystrix

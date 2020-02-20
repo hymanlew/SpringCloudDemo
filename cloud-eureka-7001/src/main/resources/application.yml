@@ -48,14 +48,14 @@ eureka:
     # 禁止直接使用 IP 进行访问
     prefer-ip-address: false
     instance-id: ${spring.cloud.client.ip-address}:${server.port}
-    # eureka 心跳失败时间，超时则显示服务不可用，断开
-    lease-expiration-duration-in-seconds: 90
-    # eureka 检测心跳的时间，建议使用默认值 30 秒不要更改，因为会影响性能。不要用在生产环境。
-    # 值越小则将加快客户端连接到其他服务的过程。在生产中最好坚持使用默认值，因为服务器中的内部计算会对租约续订期进行假设。
-    lease-renewal-interval-in-seconds: 30
+    # 指定运行环境
+    environment: dev
+    # 指定为哪个场景下初始化数据，cloud 是为 AWS 而初始化
+    data-center-info: cloud
   server:
-    # 禁用自我保护模式
+    # 禁用 eureka 的自我保护模式
     enable-self-preservation: false
+    # 清理失败节点（连接失败的客户端）的间隔，单位毫秒，默认 60*1000
     eviction-interval-timer-in-ms: 5000
 
 logging:
