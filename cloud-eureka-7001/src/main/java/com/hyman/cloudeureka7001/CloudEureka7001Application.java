@@ -93,6 +93,9 @@ import org.springframework.cloud.netflix.eureka.server.EnableEurekaServer;
  * eureka 高可用：Eureka 服务器没有后端存储，所以注册表中的服务实例都必须发送心跳信号以保持其注册是最新的（所以这可以在内存中完
  * 成）。客户机还有一个Eureka注册的内存缓存（因此他们不必为每个服务请求都去注册中心）。
  *
+ * 默认情况下，每个Eureka服务器也是Eureka客户端，需要（至少一个）服务URL来定位对等方。如果您不提供它，服务将运行并正常工作，但它
+ * 会让您的日志中充满许多无法向对等方注册的噪音。
+ *
  * @EnableEurekaServer, eureka 服务器端启动类，接受其它微服务注册进来。
  */
 @SpringBootApplication
