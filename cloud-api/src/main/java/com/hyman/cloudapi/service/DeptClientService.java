@@ -24,6 +24,9 @@ import java.util.List;
  * fallback: 定义容错的处理类，当调用远程接口失败或超时时，会调用对应接口的容错逻辑。并且指定的类必须实现 @FeignClient 标记的接口。
  * fallbackFactory: 工厂类，用于生成fallback类示例，通过这个属性可以实现每个接口通用的容错逻辑，减少重复的代码。
  * path: 定义当前FeignClient的统一前缀。
+ *
+ * 另外要注意，在 Feign中实现回退以及 Hystrix回退的工作方式是有限制的。返回 com.netflix.hystrix.HystrixCommand 和 rx.observate
+ * 的方法目前不支持回退。
  */
 @FeignClient(value = "microservice-provider-dept", configuration = FeignConfig.class, fallbackFactory = HystrixFallback.class)
 @Component

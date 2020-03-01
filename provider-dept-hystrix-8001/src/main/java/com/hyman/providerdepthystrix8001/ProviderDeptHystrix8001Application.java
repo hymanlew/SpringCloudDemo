@@ -57,6 +57,8 @@ import org.springframework.cloud.netflix.hystrix.EnableHystrix;
  *
  * 有了熔断机制而后又有服务降级，是因为：熔断机制是直接作用在具体的方法了，而这就造成了强耦合。也违反了 IOC,AOP 面向切面的思想，
  * 所以就使用熔断加 fallbackFactory 接口的方式实现解耦合，达到了服务降级的目的。
+ *
+ * 可以使用 /health 和 /hystrix.stream 路径来检查 hystrix 的启动状态和相关信息（依赖于 actuator 包）。
  */
 
 @EnableHystrix			// 启用熔断机制功能

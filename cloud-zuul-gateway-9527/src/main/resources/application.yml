@@ -1,5 +1,7 @@
 server:
   port: 9527
+  servlet:
+    context-path: /zuul
 
 spring:
   application:
@@ -17,6 +19,13 @@ eureka:
     instance-id: zuul-gateway-9527
     # 设置显示微服务名称链接的访问路径 IP 地址
     prefer-ip-address: true
+
+    # Turbine 默认是在 Eureka 中查找其主机名和端口项，然后将 /hystrix.stream 附加到已注册实例上，来查找 /hystrix.stream 端点。
+    # 如果实例的元数据 metadata-map 包含 management.port，则需要使用它来代替 /hystrix.stream 端点的端口值。默认 management.port
+    # 的元数据条目等于 management.port配置属性。
+    home-page-url-path: /zuul
+    metadata-map:
+      management.port: ${management.port:9527}
 
 
 # 自定义显示项目的描述信息，需要注意，要在父工程中进行资源访问的配置（resources 标签加 maven-resources-plugin 插件）
