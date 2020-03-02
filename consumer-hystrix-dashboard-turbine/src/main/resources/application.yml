@@ -45,7 +45,7 @@ eureka:
 #  # 指定 Eureka serviceIds 列表，表明监控哪些服务（application.name）
 #  appConfig: microservice-zuul-gateway
 #  instanceUrlSuffix:
-#    MICROSERVICE-ZUUL-GATEWAY: /zuul
+#    MICROSERVICE-ZUUL-GATEWAY: /zuul/hystrix.stream
 
 # 监控多个集群
 turbine:
@@ -54,7 +54,7 @@ turbine:
     clusterConfig: default
   # 指定监控的集群（所有指定的 application.name 相同的服务）
   appConfig: microservice-provider-dept,microservice-zuul-gateway
-  # 1，它指定集群名称，当值为 SPEL表达式（默认是 application.name）时，则 clusterConfig 需要配置想要监控的应用名称（例如上面的配置）
+  # 1，它指定集群名称，值是一个 SPEL表达式（默认是字符串 appname），则 clusterConfig 需要配置想要监控的应用名称（例如上面的配置）
   # 2，当值为 default 时，则 clusterConfig 可以不写，因为默认就是 default
   # 3，当值为 metadata['cluster'] 时（从AWS ASG名称中获取集群名称），假设想要监控的应用配置了 eureka.instance.metadata-map.cluster: ABC，则需要配置 clusterConfig 为 ABC
   clusterNameExpression: "'default'"

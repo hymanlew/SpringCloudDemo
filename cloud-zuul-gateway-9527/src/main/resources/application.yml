@@ -20,12 +20,15 @@ eureka:
     # 设置显示微服务名称链接的访问路径 IP 地址
     prefer-ip-address: true
 
-    # Turbine 默认是在 Eureka 中查找其主机名和端口项，然后将 /hystrix.stream 附加到已注册实例上，来查找 /hystrix.stream 端点。
-    # 如果实例的元数据 metadata-map 包含 management.port，则需要使用它来代替 /hystrix.stream 端点的端口值。默认 management.port
-    # 的元数据条目等于 management.port配置属性。
+    # 当配置了该属性时（但并没有配置下面的 management.port），则在访问 /hystrix.stream 时需要配置上 instanceUrlSuffix 属性。
     home-page-url-path: /zuul
+
+    # Turbine 默认是在 Eureka 中查找其主机名和端口项，然后将 /hystrix.stream 附加到已注册实例上，来查找 /hystrix.stream 端点。
+    # 如果实例的元数据 metadata-map 包含 management.port，则需要使用它来代替 /hystrix.stream 端点的端口值。即就不用配置 instanceUrlSuffix
+    # 属性了。
+    # management.port 称作管理端口，它可以使得应用具有两个端口。一个正常访问端口 9527，一个管理端口 9500（包括 hystrix，actuator）。
     metadata-map:
-      management.port: ${management.port:9527}
+      management.port: ${management.port:9500}
 
 
 # 自定义显示项目的描述信息，需要注意，要在父工程中进行资源访问的配置（resources 标签加 maven-resources-plugin 插件）

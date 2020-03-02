@@ -59,6 +59,7 @@ import org.springframework.cloud.netflix.hystrix.EnableHystrix;
  * 所以就使用熔断加 fallbackFactory 接口的方式实现解耦合，达到了服务降级的目的。
  *
  * 可以使用 /health 和 /hystrix.stream 路径来检查 hystrix 的启动状态和相关信息（依赖于 actuator 包）。
+ * 其中 /hystrix.stream 访问时，如果出现 404，则需要检查是否配置了 home-page-url-path 属性。如果有则要配置 instanceUrlSuffix。
  */
 
 @EnableHystrix			// 启用熔断机制功能
