@@ -44,10 +44,58 @@ info:
 # 开启路由映射，隐藏真实的请求路径
 zuul:
   routes:
-    mydept.serviceId: microservice-provider-dept
-    mydept.path: /dept/**
-  # 禁止使用某个服务的真实路径进行访问
-#  ignored-services: microservice-provider-dept
-  # 禁止使用所有服务的真实路径进行访问
+    # 指定一个唯一标识符（每个服务唯一），可以是任意值。请求时路径为 zuulIP:port//dept/微服务路径
+    mydept:
+      serviceId: microservice-provider-dept
+      path: /dept/**
+
+    # 后端的位置可以指定为 serviceId（eureka 发现的服务）或 url（用于物理位置），如下例所示：
+    myconsumer:
+      # 对应到 microservice-consumer-dept 其中的一个服务实例，且只能是一个，即也不能使用 robbin 负载了
+      url: https://127.0.0.1:8080/
+      path: /dept/**
+
+  # 禁止使用某个服务的真实路径（application-name）进行访问
+  # ignored-services: microservice-provider-dept
+  # 禁止使用所有服务的真实路径（application-name）进行访问
   ignored-services: "*"
-  prefix: /hyman
+  # 禁止使用所有指定路径的访问
+  ignored-patterns: "/**/admin/**"
+
+  # 以下两个属性是组合使用的，意思是将被代理的微服务的 context-path，home-page-url-path 去掉（即 prefix 指定的路径，会替换掉服务的原路径）
+  # 而 strip-prefix 则代表转发请求时，是否去掉 zuul 的代理前缀
+  # 以下两个是全局的配置。如果是针对某个服务的前缀设置，则需要放在 routes 的唯一标识符下，使用 path + stripPrefix 组合
+  prefix: /micro
+  strip-prefix: false
+
+  host:
+    maxTotalConnections: 200
+    maxPerRouteConnections: 20
+  # 指定路由 Hystrix隔离模式的策略，为线程。默认是信号量
+  ribbonIsolationStrategy: THREAD
+
+
+# 指定 zuul 代理某个集群的负载均衡及熔断的策略
+hystrix:
+  command:
+    # default全局有效，service id 指定应用有效（microservice-provider-dept）
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 3000
+
+microservice-provider-dept:
+  ribbon:
+    NIWSServerListClassName: com.netflix.loadbalancer.ConfigurationBasedServerList
+    listOfServers: http://localhost:8001,http://localhost:8002,http://localhost:8003
+    ConnectTimeout: 1000
+    ReadTimeout: 3000
+    MaxTotalHttpConnections: 500
+    MaxConnectionsPerHost: 100
+
+
+logging:
+  level:
+    root: info
+    com.netflix: debug

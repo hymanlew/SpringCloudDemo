@@ -3,6 +3,8 @@ package com.hyman.cloudzuulgateway9527;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
+import org.springframework.cloud.netflix.zuul.filters.discovery.PatternServiceRouteMapper;
+import org.springframework.context.annotation.Bean;
 
 /**
  * 在决定以一组微服务来构建自己的应用时，就需要确定应用客户端如何与微服务交互。
@@ -154,15 +156,17 @@ import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
  * 总结：微服务必须使用进程间通信机制来交互。在设计服务的通信模式时，你需要考虑几个问题：服务如何交互，每个服务如何标识 API，如何升级 API，以及如何处理局部失败。微服务架构异步消息机制和同步请求/响应机制这两类 IPC 机制可用。
  *
  *
+ * Netflix API 网关（zuul）是一个很好的 API 网关实例。其主要作用有：身份验证，压力测试，金丝雀测试，动态路由，服务迁移，负载减载，安全，静态响应处理，主动/主动交通管理。并且其规则引擎允许用基本上任何JVM语言编写规则和过滤器，并内
+ * 置对Java和Groovy的支持。所有的路由，默认是 Hystrix隔离模式（ExecutionIsolationStrategy）的信号量。如果要更换为线程模式，则可以将 zuul.ribbonIsolationStrategy 更改为THREAD。
  *
  * Zuul 包含了对请求的路由和过滤两个最主要的功能：
- * 其中路由功能负责将外部请求转发到具体的微服务实例上，是实现外部访问统一入口的基础而过滤器功能则负责对请求的处理过程进行干预，
- * 是实现请求校验，服务聚合等功能的基础。
+ * 其中路由功能负责将外部请求转发到具体的微服务实例上，是实现外部访问统一入口的基础而过滤器功能则负责对请求的处理过程进行干预，是实现请求校验，服务聚合等功能的基础。
  * 即提供：代理，路由，过滤，三大功能。
  *
- * Zuul 与 Eureka 整合：
- * 将 Zuul 自身注册为 Eureka 服务治理下的应用，同时从 Eureka 中获得其他微服务的消息，也即以后的访问微服务都是通过 Zuul 跳转后
- * 获得。
+ * 需要注意的是，Zuul starter不包括发现客户机（即不包含服务发现功能），因此对于基于服务id的路由，还需要在类路径上提供一个服务发现的中间件（例如 Eureka）。
+ * Zuul 与 Eureka 整合：将 Zuul 自身注册为 Eureka 服务治理下的应用，同时从 Eureka 中获得其他微服务的消息，也即以后的访问微服务都是通过 Zuul 跳转后获得。
+ *
+ * 使用时，直接调用 zuulIP:port/其他某个微服务的 application-name/微服务路径，即可。即 zuul 默认会代理和映射所有注册到 eureka 中的微服务。当然也可以配置 routes 属性指定服务映射关系。
  */
 @SpringBootApplication
 @EnableZuulProxy
@@ -172,4 +176,14 @@ public class CloudZuulGateway9527Application {
 		SpringApplication.run(CloudZuulGateway9527Application.class, args);
 	}
 
+	/**
+	 * 除了在配置文件中配置的几种路由规则。也可以指定为使用 version 版本号的映射路径。例如有一个服务为 mic-dept-v1（v1为版本号），则请求路径为：
+	 * zuulIP:port/v1/mic-dept/微服务路径
+	 */
+	@Bean
+	public PatternServiceRouteMapper serviceRouteMapper() {
+		return new PatternServiceRouteMapper(
+			"(?<name>^.+)-(?<version>v.+$)",
+			"${version}/${name}");
+	}
 }
