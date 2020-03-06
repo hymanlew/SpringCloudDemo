@@ -167,6 +167,7 @@ import org.springframework.context.annotation.Bean;
  * Zuul 与 Eureka 整合：将 Zuul 自身注册为 Eureka 服务治理下的应用，同时从 Eureka 中获得其他微服务的消息，也即以后的访问微服务都是通过 Zuul 跳转后获得。
  *
  * 使用时，直接调用 zuulIP:port/其他某个微服务的 application-name/微服务路径，即可。即 zuul 默认会代理和映射所有注册到 eureka 中的微服务。当然也可以配置 routes 属性指定服务映射关系。
+ * 并且可以用 zuulIP:port/routes 查看当前网关所代理的所有服务。
  */
 @SpringBootApplication
 @EnableZuulProxy
