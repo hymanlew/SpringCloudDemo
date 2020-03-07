@@ -5,6 +5,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
 import org.springframework.cloud.netflix.zuul.filters.discovery.PatternServiceRouteMapper;
 import org.springframework.context.annotation.Bean;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
  * 在决定以一组微服务来构建自己的应用时，就需要确定应用客户端如何与微服务交互。
@@ -186,5 +188,21 @@ public class CloudZuulGateway9527Application {
 		return new PatternServiceRouteMapper(
 			"(?<name>^.+)-(?<version>v.+$)",
 			"${version}/${name}");
+	}
+
+	/**
+	 * 启用跨源请求。
+	 * 默认情况下，Zuul 将所有跨源请求（cor）路由到服务。如果想让 Zuul 处理这些请求，可以自定义 WebMvcConfigurer bean 来完成。
+	 * @return
+	 */
+	@Bean
+	public WebMvcConfigurer corsConfigurer() {
+		return new WebMvcConfigurer() {
+			public void addCorsMappings(CorsRegistry registry) {
+				registry.addMapping("/path-1/**")
+						.allowedOrigins("https://allowed-origin.com")
+						.allowedMethods("GET", "POST");
+			}
+		};
 	}
 }

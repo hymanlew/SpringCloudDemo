@@ -2,6 +2,7 @@ package com.hyman.myrule;
 
 import com.netflix.loadbalancer.IRule;
 import com.netflix.loadbalancer.RandomRule;
+import org.springframework.cloud.netflix.ribbon.ZonePreferenceServerListFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -20,5 +21,13 @@ public class MyRule {
     @Bean
     public IRule myRule(){
         return new MyConfigRule();
+    }
+
+
+    @Bean
+    public ZonePreferenceServerListFilter serverListFilter() {
+        ZonePreferenceServerListFilter filter = new ZonePreferenceServerListFilter();
+        filter.setZone("");
+        return filter;
     }
 }

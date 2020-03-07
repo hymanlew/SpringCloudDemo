@@ -85,6 +85,8 @@ zuul:
   host:
     maxTotalConnections: 200
     maxPerRouteConnections: 20
+    connect-timeout-millis: 2000
+    socket-timeout-millis: 10000
   # 指定路由 Hystrix隔离模式的策略，为线程。默认是信号量
   ribbonIsolationStrategy: THREAD
 
@@ -108,11 +110,12 @@ microservice-provider-dept:
     MaxTotalHttpConnections: 500
     MaxConnectionsPerHost: 100
 
-# 配置超时策略，防止文件过大时，上传时间超时（在 microservice-config-client 服务）
+# 配置 zuul 的超时策略，防止文件过大时，上传时间超时（在 microservice-config-client 服务）
 # 当不指定 service id 时，则代表全局有效。若指定，则代表对指定应用有效
 ribbon:
   ConnectTimeout: 3000
   ReadTimeout: 60000
+  SocketTimeout: 30000
 
 logging:
   level:
