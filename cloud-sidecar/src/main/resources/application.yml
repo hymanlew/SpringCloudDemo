@@ -19,6 +19,11 @@ eureka:
     prefer-ip-address: true
 
 sidecar:
+
   # 指定非 JVM 应用程序侦听的端口（当访问本服务时，会同时调用指定端口的路径）
   port: 8000
   health-uri: http://localhost:8000/health.json
+  # 当在使用 HTTPs 时接受所有证书，以启用健康检查
+  accept-all-ssl-certificates: true
+
+

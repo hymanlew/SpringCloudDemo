@@ -160,16 +160,19 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  *
  * Netflix API 网关（zuul）是一个很好的 API 网关实例。其主要作用有：身份验证，压力测试，金丝雀测试，动态路由，服务迁移，负载减载，安全，静态响应处理，主动/主动交通管理。并且其规则引擎允许用基本上任何JVM语言编写规则和过滤器，并内
  * 置对Java和Groovy的支持。所有的路由，默认是 Hystrix隔离模式（ExecutionIsolationStrategy）的信号量。如果要更换为线程模式，则可以将 zuul.ribbonIsolationStrategy 更改为THREAD。
- *
  * Zuul 包含了对请求的路由和过滤两个最主要的功能：
  * 其中路由功能负责将外部请求转发到具体的微服务实例上，是实现外部访问统一入口的基础而过滤器功能则负责对请求的处理过程进行干预，是实现请求校验，服务聚合等功能的基础。
  * 即提供：代理，路由，过滤，三大功能。
  *
  * 需要注意的是，Zuul starter不包括发现客户机（即不包含服务发现功能），因此对于基于服务id的路由，还需要在类路径上提供一个服务发现的中间件（例如 Eureka）。
- * Zuul 与 Eureka 整合：将 Zuul 自身注册为 Eureka 服务治理下的应用，同时从 Eureka 中获得其他微服务的消息，也即以后的访问微服务都是通过 Zuul 跳转后获得。
- *
+ * Zuul 与 Eureka 整合：将 Zuul 自身注册为 Eureka 服务治理下的应用，同时从 Eureka 中获得其他微服务的消息（Zuul 会自动将 Eureka 中已知的每个服务的路由添加到/<serviceId>），也即以后的访问微服务都是通过 Zuul 跳转后获得。
  * 使用时，直接调用 zuulIP:port/其他某个微服务的 application-name/微服务路径，即可。即 zuul 默认会代理和映射所有注册到 eureka 中的微服务。当然也可以配置 routes 属性指定服务映射关系。
  * 并且可以用 zuulIP:port/routes 查看当前网关所代理的所有服务。
+ *
+ * Zuul 的高可用可以分两种场景讨论：
+ * 1，Zuul客户端也注册到了Eureka Server上。此时，Zuul的高可用很简单，只需将多个Zuul节点注册到Eureka Server上，就可实现Zuul的高可用。此时，Zuul的高可用与其他微服务的高可用没什么区别。Zuul客户端会自动从Eureka Server中查询Zuul Server
+ *    的列表，并使用Ribbon负载均衡地请求Zuul集群。这种场景一般用于Sidecar。
+ * 2，Zuul客户端未注册到Eureka Server上。这种场景在现实中更常见，例如 Zuul客户端是一个手机APP，我们不可能让所有的手机终端都注册到Eureka Server上。此时，就需要借助一个额外的负载均衡器来实现Zuul的高可用，例如Nginx、HAProxy、F5等。
  */
 @SpringBootApplication
 @EnableZuulProxy
