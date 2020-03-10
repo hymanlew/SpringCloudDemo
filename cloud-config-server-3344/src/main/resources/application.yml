@@ -12,6 +12,8 @@ spring:
 #         github 上的 git 仓库名字（是一个单独存储 yml 配置文件的项目，没有其他东西），即指定 config server在 git上的 yml 配置。
 #         以让 config client 动态获取仓库中的配置文件信息。不可以使用 git@github 方式进行访问。
           uri: https://github.com/hymanlew/SpringCloudDemo.git
+          username: hymanlew
+          password: hymanlew
 
 # 访问时，使用以下方式（application=application name，label=git batch name(默认是 master)，profile=各个环境上的配置）：
 # /{application}/{profile}[/{label}]
@@ -25,6 +27,9 @@ spring:
 # 1，首先它会先搜索配置服务器中有没有被访问的同名的文件，有则就直接读取该文件的数据。
 # 2，如果没有，就会到 application.yml/properties 文件中去读取数据。
 # 3，如果仍然没有找到，则会抛异常。
+
+# 也可以配置 uri 为，https://github.com/hymanlew/{application}
+# 则此时引用的配置就会是灵活的，即只要是在访问时的 application-name 在 git 中有对应的仓库配置文件，则就会访问到对应的配置。
 
 
 # git 上 server 端的 yml 配置（application-server.yml）

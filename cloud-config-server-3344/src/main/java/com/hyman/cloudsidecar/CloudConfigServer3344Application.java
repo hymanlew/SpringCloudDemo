@@ -21,14 +21,15 @@ import org.springframework.cloud.config.server.EnableConfigServer;
  *
  * 客户端则是通过指定的配置中心来管理应用资源，以及与业务相关的配置内容，并在启动的时候从配置中心获取和加载配置信息，执行相关操作。
  *
- * 作用：
+ * 作用（为什么要统一管理配置）：
  * 1，集中管理配置文件。
  * 2，不同环境不同配置，动态化的配置更新，分环境部署（例如 dev/test/prod/release）。
  * 3，运行期间动态调整配置，不再需要在每个服务部署的机器上编写配置文件，服务会向配置中心统一拉取配置自己的信息。
- * 4，当配置发生变动时，服务不需要重启即可感知配置的变化并应用新的配置，即动态刷新。
+ * 4，自动刷新。当配置发生变动时，服务不需要重启即可感知配置的变化并应用新的配置，即动态刷新。
  * 5，将配置信息以 REST 接口的形式暴露。
  *
- * 也可以使用其他组件进行分布式配置管理，如 zookeeper，consul，百度的 disconf（比较成熟），阿里的 diamond，携程的 apollo。
+ * 当然 ConfigServer 并不是唯一的配置，也可以使用其他组件进行分布式配置管理，如 zookeeper，consul，百度的 disconf（比较成熟），
+ * 阿里的 diamond，携程的 apollo。
  */
 @SpringBootApplication
 @EnableConfigServer
