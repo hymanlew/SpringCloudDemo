@@ -1,0 +1,35 @@
+server:
+  port: 3344
+
+# 当将 Spring Cloud 配置文件存放在公共环境时（如 github），可以使用其自身的加解密环境，对配置信息进行加密再存储。但是该环境需
+# 要安装 Java Cryptography Extension（JCE），地址是 https://www.oracle.com/java/technologies/javase-jce8-downloads.html。
+# 下载 JCE 压缩包后解压，它包含两个策略文件 jar 包（即加密和解密）。将这两个文件替换到 JDK 安装目录--jre--lib--security 这个
+# 目录中，即可。
+
+# 使用对称加密，配置以下代码即可：
+encrypt:
+  key: hymanencry
+
+# 加密时，访问本服务 IP:PORT/encrypt -d 明文（例如 microservice-config-server），则它会输出密文（即使用 hymanencry 作为密钥
+# 对明文进行对称式加密）。解密时，访问本服务 IP:PORT/decrypt -d 密文，则它就会输出对应的明文（microservice-config-server）。
+# 具体使用时，使用访问的方式获取到数据的密文，然后再配置在配置文件中即可。例如 microservice-config-server = abcdefg 密文。
+spring:
+  application:
+    name: '{cipher}abcdefg'
+
+# 则存储在网上时，就是 name 后面的值。但是在 SpringCloudconfig 服务正常调用时，会自动解密。访问 localhost:3344/application-encry.yml，
+# 即可看到解密后的明文。并且只需要配置 server 端即可，client 端不需要任何改动。
+# 需要注意的是，如果是使用 yml 文件则是这样写。如果是使用 properties 文件，则需要写成 name={cipher}abcdefg，不能加单引号，否
+# 则服务不能正常解密。
+
+
+# 使用非对称加密，创建用于测试的密钥库。首先在某一目录下执行以下命令，成功后会在该目录下生成一个 server.jks 文件：
+# keytool -genkeypair -alias mytestkey -keyalg RSA -dname "CN=Web Server,OU=Unit,O=Organization,L=City,S=State,C=US"
+# -keypass changeme -keystore server.jks -storepass letmein
+
+# 并且要注意，在使用JDK 11或更高版本时，使用该可能会收到以下警告。此时就需要确保 keypass 和 storepass 的值匹配。
+# Warning: Different store and key passwords not supported for PKCS12 KeyStores. Ignoring user-specified -keypass value.
+# 之后，将 server.jks 文件放在类路径中、，然后在bootstrap.yml中为配置服务器创建以下设置：
+
+
+
