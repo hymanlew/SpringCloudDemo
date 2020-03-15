@@ -36,7 +36,6 @@ spring:
 # 2，如果没有，就会到公共的配置仓库中去读取数据（即 SpringCloudDemo.git 的 application.yml/properties 文件）。
 # 3，如果仍然没有找到，则会抛异常。
 
-
   cloud:
     config:
       server:
