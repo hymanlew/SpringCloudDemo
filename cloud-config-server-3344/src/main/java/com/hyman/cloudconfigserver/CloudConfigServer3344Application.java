@@ -1,4 +1,4 @@
-package com.hyman.cloudsidecar;
+package com.hyman.cloudconfigserver;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

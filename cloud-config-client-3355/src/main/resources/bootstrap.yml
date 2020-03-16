@@ -9,14 +9,25 @@
 # 加载顺序为：bootstrap.* 配置 --》 config server 中远程的配置 --》 最后加载 application.*。
 
 spring:
+#  # 当没有使用 eureka 时，需要手动指定地址并读取 configserver 中的配置
+#  cloud:
+#    config:
+#      # 需要从 github 上读取的 yml 资源文件的名称，注意没有 yml 后缀。并且它还要跟 spring.application.name 的名称保持一致
+#      name: microservice-config-client
+#      # 本次访问的哪一类配置项
+#      profile: dev
+#      # git 下的哪个分支，默认为 master
+#      label: master
+#      # 本微服务启动后先去找 3344 端口号的服务，通过 microservice-config-server-3344 项目的 application 文件中获取 github 的服务地址
+#      url: http://microservice-config-server:3344
+
+  # 在使用 eureka 服务发现时，它会从注册的服务中获取指定的 configserver 的配置信息。并且要配置在 Bootstrap 文件中
   cloud:
     config:
-#     需要从 github 上读取的 yml 资源文件的名称，注意没有 yml 后缀。并且它还要跟 spring.application.name 的名称保持一致
-      name: microservice-config-client
-#     本次访问的哪一类配置项
-      profile: dev
-#     git 下的哪个分支，默认为 master
-      label: master
-#     本微服务启动后先去找 3344 端口号的服务，通过 cloud-config-server-3344 项目的 application 文件中获取 github 的服务地址
-      url: http://microservice-config-server:3344
-
+      discovery:
+        enabled: true
+        # 即指定 server 的 application-name
+        service-id: microservice-config-server-eureka-3345
+      # 使用以下属性来指定服务端的账号密码
+      username: admin
+      password: admin

@@ -9,24 +9,23 @@
 		<version>1.0-SNAPSHOT</version>
 	</parent>
 
-	<artifactId>cloud-config-eureka-7001</artifactId>
+	<artifactId>cloud-config-server-eureka-3345</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>cloud-config-eureka-7001</name>
+	<name>cloud-config-server-eureka-3345</name>
 	<description>服务注册中心</description>
 
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-starter-netflix-eureka-server</artifactId>
-			<version>2.1.1.RELEASE</version>
+			<artifactId>spring-cloud-config-server</artifactId>
 		</dependency>
+
+		<!-- 将微服务provider侧注册进eureka，另外 eureka 自身已经集成了 ribbon，所以不需要另外导入 ribbon 的 jar 包 -->
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-dependencies</artifactId>
-            <version>${spring-cloud.version}</version>
-			<type>pom</type>
-			<scope>import</scope>
+			<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
 		</dependency>
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-devtools</artifactId>
