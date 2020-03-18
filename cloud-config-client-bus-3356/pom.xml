@@ -4,9 +4,9 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.hyman</groupId>
-	<artifactId>cloud-config-client-3355</artifactId>
+	<artifactId>cloud-config-client-bus-3356</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>cloud-config-client-3355</name>
+	<name>cloud-config-client-bus-3356</name>
 	<description>Demo project for Spring Boot</description>
 
 	<parent>
