@@ -19,3 +19,10 @@ spring:
       # 使用以下属性来指定服务端的账号密码
       username: admin
       password: admin
+
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: hyman
+    password: hyman
+

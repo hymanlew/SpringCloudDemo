@@ -1,4 +1,3 @@
-
 server:
   port: 3355
 
@@ -39,3 +38,4 @@ microservice-config-dept-client:
   ribbon:
     NIWSServerListClassName: com.netflix.loadbalancer.ConfigurationBasedServerList
     NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RandomRule
+
