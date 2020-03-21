@@ -20,6 +20,11 @@ spring:
       username: admin
       password: admin
 
+    # 启用跟踪总线事件
+    bus:
+      trace:
+        enabled: true
+
   rabbitmq:
     host: localhost
     port: 5672

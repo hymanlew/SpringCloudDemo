@@ -57,7 +57,7 @@
 		<!-- SpringCloudBus 依赖于 RabbitMQ 或者 kafka -->
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-boot-starter-amqp</artifactId>
+			<artifactId>spring-cloud-starter-bus-amqp</artifactId>
 		</dependency>
 	</dependencies>
 

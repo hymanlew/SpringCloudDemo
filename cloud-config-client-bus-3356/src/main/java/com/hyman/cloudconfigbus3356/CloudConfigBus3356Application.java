@@ -42,7 +42,8 @@ import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
  * HTTP 端点接受 destination 路径参数，例如 /bus-refresh/customers：9000，其中destination是服务ID（默认是 application-name:port）。
  * 如果该ID由总线上的一个实例拥有，它将处理该消息，而所有其他实例将忽略它。
  * 但如果当一个服务被部署到两台机器时，且服务名与端口号都一样的话，则意味着有两个实例节点，它们的 applicationContext ID（服务ID）
- * 是一样的。而当 config bus 在刷新时，会判断如果是自身则不刷新，这就会导致这两个节点都不会刷新。
+ * 是一样的。而当 config bus 在刷新时，会判断如果是自身则不刷新，这就会导致这两个节点都不会刷新。所以在真正的生产中，往往要配置一个
+ * 唯一标识 spring.application.index，但是在最新版中，默认 service id 就是唯一的，不需要设置。
  *
  *
  * 注意，Spring Cloud Bus入门文章涵盖Rabbit和Kafka，因为它们是两个最常见的实现。但 Spring Cloud Stream 更加灵活，并且绑定程序可
