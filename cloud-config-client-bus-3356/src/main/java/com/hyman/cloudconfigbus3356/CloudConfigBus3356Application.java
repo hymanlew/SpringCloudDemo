@@ -48,6 +48,19 @@ import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
  *
  * 注意，Spring Cloud Bus入门文章涵盖Rabbit和Kafka，因为它们是两个最常见的实现。但 Spring Cloud Stream 更加灵活，并且绑定程序可
  * 与 spring-cloud-bus 一起使用。
+ *
+ * 但是这种单客户端 bus 配置的方式有一种问题，就是它固定的指向了某个端的服务IP和端。即服务的配置更新需要通过向具体服务中的某个实例
+ * 发送请求，再触发对整个服务集群的配置更新。虽然能实现功能，但是这样的结果是，我们指定的应用实例会不同千集群中的其他应用实例， 这样
+ * 会增加集群内部的复杂度，不利于将来的运维工作。比如，需要对服务实例进行迁移（IP（或应用名称）或端口发生改变），那么我们不得不修改
+ * Web Hook中的配置等，在调用刷新的时候就要相应的改变访问路径。并且在现实情况中，应用实例名称与端口可能会随时发生改变的。
+ *
+ * 所以要尽可能地让服务集群中的各个节点是对等的。解决方法就是：
+ * 1，在 ConfigServer 中也引入 SpringCloud Bus，将配置服务端也加入到消息总线中来。
+ * 2，/bus/refresh 请求不再发送到具体服务实例上，而是发送给 Config Server, 并通过 destination 参数来指定需要更新配置的服务或实例。
+ * 通过上面的改动，我们的服务实例不需要再承担触发配置更新的职责。同时对于 Git 的触发等配置都只需要针对 ConfigServer 即可， 从而简化
+ * 了集群上的一些维护工作。
+ *
+ *
  */
 @SpringBootApplication
 @EnableEurekaClient
