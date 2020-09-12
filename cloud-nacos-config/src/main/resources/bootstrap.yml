@@ -1,0 +1,30 @@
+
+# 以下配置必须要放在本文件下，否则无法启动，因为加载不到配置信息
+spring:
+  application:
+    name: config-center-7001
+
+  profiles:
+    active: dev
+
+# SpringCloud-Alibaba Nacos Config 从 Nacos Config Server 中加载配置时，会匹配 dataId（dataId 表示 Nacos 中某个配置集的 id，
+# 通常用于组织划分系统的配置集）。Nacos Config 不仅加载了默认的以下第一条的基础配置，还会加载 dataId 为 ${spring.application.name}
+# -${profile}.${file-extension:properties} 的基础配置。这就为不同环境的切换提供了很好的支持。
+
+  cloud:
+    nacos:
+      config:
+#       如果配置的是域名，也要加上端口，即使监听的是 80 端口，也要写上
+        server-addr: 127.0.0.1:8848
+
+#       表示 Nacos 配置中心上的 dataId 前缀
+
+#       1，默认情况下，会去 Nacos 服务器上加载 dataId 以  ${spring.application.name}. ${file-extension:properties} 为前缀的基础配置。
+#       即如果不指定则默认是 spring.application.name 的值，即读取默认的 bootstrap/application/spring-application-name.properties 文件。
+
+#       2，如果明确指定了 dataId 前缀（即 prefix 属性），则会加载指定 dataId 的配置。
+#       4，在 nacos 实现中，dataId 默认规则是 ${prefix}-${spring.profile.active}.${file-extension 文件扩展}。
+        prefix: myconfig
+
+#       3，另外如果配置文件是使用 yml 格式，则需要在 bootstrap 文件中声明。默认是 properties 格式文件
+        file-extension: yaml

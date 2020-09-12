@@ -13,7 +13,7 @@ spring:
         git:
           # github 上的 git 仓库名字（是一个单独存储 yml 配置文件的项目，没有其他东西），即指定 config server在 git上的 yml 配置。
           # 以让 config client 动态获取仓库中的配置文件信息。不可以使用 git@github 方式进行访问。
-          uri: https://github.com/hymanlew/SpringCloudDemo.git
+          uri: https://github.com/hymanlew/SpringCloudAlibabaDemo.git
           username: hymanlew
           password: hymanlew
 

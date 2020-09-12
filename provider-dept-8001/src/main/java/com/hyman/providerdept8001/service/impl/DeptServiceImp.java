@@ -2,7 +2,7 @@ package com.hyman.providerdept8001.service.impl;
 
 import com.hyman.cloudapi.entity.Department;
 import com.hyman.providerdept8001.dao.DeptDao;
-import com.hyman.providerdept8001.service.DeptService;
+import com.hyman.cloudapi.service.DeptService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

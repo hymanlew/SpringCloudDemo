@@ -5,7 +5,7 @@
 
 	<parent>
 		<groupId>com.hyman</groupId>
-		<artifactId>SpringCloudDemo</artifactId>
+		<artifactId>SpringCloudAlibabaDemo</artifactId>
 		<version>1.0-SNAPSHOT</version>
 	</parent>
 
@@ -34,14 +34,20 @@
 			<optional>true</optional>
 		</dependency>
 
-		<!-- 将微服务provider侧注册进eureka，另外 eureka 自身已经集成了 ribbon，所以不需要另外导入 ribbon 的 jar 包 -->
+		<!-- spring-cloud-core 包 -->
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+			<artifactId>spring-cloud-starter</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-starter-config</artifactId>
+			<groupId>com.alibaba.cloud</groupId>
+			<artifactId>spring-cloud-starter-dubbo</artifactId>
+			<version>2.1.1.RELEASE</version>
+		</dependency>
+		<dependency>
+			<groupId>com.alibaba.cloud</groupId>
+			<artifactId>spring-cloud-alibaba-nacos-discovery</artifactId>
+			<version>2.1.1.RELEASE</version>
 		</dependency>
 	</dependencies>
 

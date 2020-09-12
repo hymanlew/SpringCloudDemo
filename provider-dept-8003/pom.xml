@@ -12,7 +12,7 @@
 	<parent>
 		<!-- 子项目中需要显示声明父类，才能有明确的继承表现，无意外就是父类的默认版本否则自己定义（这里是手动添加的） -->
 		<groupId>com.hyman</groupId>
-		<artifactId>SpringCloudDemo</artifactId>
+		<artifactId>SpringCloudAlibabaDemo</artifactId>
 		<version>1.0-SNAPSHOT</version>
 	</parent>
 
@@ -65,7 +65,7 @@
 
 	<!-- 构建特殊配置信息，因为在构建Maven项目的时候，如果没有进行特殊的配置，Maven会按照标准的目录结构查找和处理各种类型文件。 -->
 	<build>
-		<finalName>SpringCloudDemo</finalName>
+		<finalName>SpringCloudAlibabaDemo</finalName>
 		<!-- 通过 resource 标签来指定加载配置文件，也可以指定访问的资源的路径 -->
 		<resources>
 			<resource>
