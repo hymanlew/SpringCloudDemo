@@ -34,18 +34,7 @@ spring:
     maxPoolPreparedStatementPerConnectionSize: 20
     useGlobalDataSourceStat: true
     connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=500
-      
-eureka:
-  # 客户端注册进 eureka 服务列表内
-  client:
-    service-url:
-#    单机版，只有一个注册中心时
-#      defaultZone: http://localhost:7001/eureka
-#     集群版，同时有多个注册中心时（其中 eureka7001 设置了登录验证）
-      defaultZone: http://admin:admin@eureka7001:7001/eureka/,http://eureka7002:7002/eureka/,http://eureka7003:7003/eureka/
-#   使用 eureka 检查功能（需要有 actuator 依赖），注意一定要配置在 application.xml 中，不能在 bootstrap，否则会有未知的错误
-    healthcheck:
-      enabled: true
+
 
   instance:
     # 自定义在注册中心页面显示的微服务的名称
@@ -61,6 +50,12 @@ eureka:
     statusPageUrlPath: ${server.servletPath}/info
     healthCheckUrlPath: ${server.servletPath}/health
 
+
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+
 # 使用 actuator 功能自定义显示项目的描述信息，需要注意，要在父工程中进行资源访问的配置（resources 标签加 maven-resources-plugin 插件）
 info:
   service:
@@ -71,3 +66,15 @@ info:
     version: @project.version@
     description: @project.description@
 
+
+# 提供 dubbo 及 nacos 配置，用于声明 dubbo 服务暴露的网络端口和协议，及服务注册的地址信息
+dubbo:
+  scan:
+    base-packages: com.hyman.providerdept8001
+  protocol:
+    name: dubbo
+    port: 20880
+
+# dubbo 的服务注册中心地址，其参数值表示挂载到 springcloud 注册中心，不配置的话会提示错误
+  registry:
+    address: spring-cloud://localhost

@@ -1,7 +1,7 @@
 package com.hyman.providerdept8001.controller;
 
 import com.hyman.cloudapi.entity.Department;
-import com.hyman.providerdept8001.service.DeptService;
+import com.hyman.cloudapi.service.DeptService;
 import com.netflix.appinfo.InstanceInfo;
 import com.netflix.discovery.EurekaClient;
 import org.springframework.beans.factory.annotation.Autowired;
