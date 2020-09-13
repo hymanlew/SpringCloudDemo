@@ -4,9 +4,9 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.hyman</groupId>
-	<artifactId>cloud-config-server-3344</artifactId>
+	<artifactId>provider-dept-sentinel</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>cloud-config-server-3344</name>
+	<name>provider-dept-sentinel</name>
 	<description>Demo project for Spring Boot</description>
 
 	<parent>
@@ -17,11 +17,12 @@
 	</parent>
 
 	<dependencies>
+		<!-- 引入自己定义的api通用包，可以使用Dept部门Entity -->
 		<dependency>
-			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-config-server</artifactId>
+			<groupId>com.hyman</groupId>
+			<artifactId>cloud-api</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
-
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-devtools</artifactId>
@@ -29,17 +30,26 @@
 			<optional>true</optional>
 		</dependency>
 
-		<!--设置 configServer 登录密码需要用到 Spring Security-->
+
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>8.0.15</version>
+		</dependency>
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>druid</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.mybatis.spring.boot</groupId>
+			<artifactId>mybatis-spring-boot-starter</artifactId>
+		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-security</artifactId>
+			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 
-		<!-- config-server 端配置上 bus 依赖，以解决动态刷新时，应用实例名称与端口发生变动的情况。Bus 依赖于 RabbitMQ 或者 kafka -->
-		<dependency>
-			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-starter-bus-amqp</artifactId>
-		</dependency>
+
 	</dependencies>
 
 	<build>
