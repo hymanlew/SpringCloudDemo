@@ -22,7 +22,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
-        <junit.version>4.12</junit.version>
+        <junit.version>4.13.1</junit.version>
         <log4j.version>1.2.17</log4j.version>
         <!-- 不要指定版本，因为 cloud 已经集成了最新版本，并且 IDEA 下载 lombok 插件时也是下载最新的 -->
         <!--<lombok.version>1.16.18</lombok.version>-->
