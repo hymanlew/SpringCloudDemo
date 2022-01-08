@@ -22,15 +22,54 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
+        <java.version>1.8</java.version>
+        <mysql.version>5.1.30</mysql.version>
+
+        <durid.version>1.1.20</durid.version>
+        <mapper.version>3.4.2</mapper.version>
+        <tk.mybatis.version>1.2.4</tk.mybatis.version>
+        <pagehelper.version>1.2.10</pagehelper.version>
+        <fastjson.version>1.2.68</fastjson.version>
+
+        <spring.boot.admin.version>2.0.2</spring.boot.admin.version>
+        <hyman.domain.version>2.1.0</hyman.domain.version>
+        <aliyun.oss.version>2.8.3</aliyun.oss.version>
+        <commons.lang3.version>3.9</commons.lang3.version>
         <junit.version>4.12</junit.version>
         <log4j.version>1.2.17</log4j.version>
         <!-- 不要指定版本，因为 cloud 已经集成了最新版本，并且 IDEA 下载 lombok 插件时也是下载最新的 -->
         <!--<lombok.version>1.16.18</lombok.version>-->
-        <mysql.version>8.0.15</mysql.version>
-        <java.version>1.8</java.version>
-        <spring-cloud.version>Greenwich.SR5</spring-cloud.version>
+
         <eureka-server.version>2.1.1</eureka-server.version>
+        <swagger.ui.version>1.9.1.RELEASE</swagger.ui.version>
+        <swagger.bootstrap.ui.version>1.9.6</swagger.bootstrap.ui.version>
+        <tomcat.version>8.5.30</tomcat.version>
+        <elasticsearch.version>6.6.2</elasticsearch.version>
+
+        <openFeign.version>3.2.2</openFeign.version>
+        <skywalking.version>6.6.0</skywalking.version>
+        <rocketmq.client.version>4.7.1</rocketmq.client.version>
+        <weixin-java.version>3.8.0</weixin-java.version>
+        <easyexcel.version>2.2.6</easyexcel.version>
+        <poi.version>3.17</poi.version>
+        <lombok.version>1.18.6</lombok.version>
+
+        <docker.image.prefix>ag</docker.image.prefix>
+        <docker.plugin.version>0.4.13</docker.plugin.version>
+
+        <!-- 新增 -->
+        <ons-client.version>1.8.7.4.Final</ons-client.version>
+        <guava.version>30.1.1-jre</guava.version>
+        <protostuff-runtime.version>1.7.2</protostuff-runtime.version>
+        <protostuff-core.version>1.7.2</protostuff-core.version>
+        <maven-javadoc-plugin.version>3.2.0</maven-javadoc-plugin.version>
+        <maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
     </properties>
+
+    <modules>
+        <module>cloud-zuul-9527</module>
+        <module>common</module>
+    </modules>
 
     <!-- Dependencies 相对于 dependencyManagement，所有在这个元素里的依赖都会自动引入，并默认被所有的子项目继承。-->
     <dependencies>
@@ -92,7 +131,7 @@
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>
-                <version>${spring-cloud.version}</version>
+                <version>Hoxton.SR1</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -107,11 +146,12 @@
             <dependency>
                 <groupId>mysql</groupId>
                 <artifactId>mysql-connector-java</artifactId>
+                <version>${mysql.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.alibaba</groupId>
-                <artifactId>druid</artifactId>
-                <version>1.0.31</version>
+                <artifactId>druid-spring-boot-starter</artifactId>
+                <version>${durid.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.mybatis.spring.boot</groupId>
