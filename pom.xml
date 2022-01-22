@@ -35,7 +35,7 @@
         <hyman.domain.version>2.1.0</hyman.domain.version>
         <aliyun.oss.version>2.8.3</aliyun.oss.version>
         <commons.lang3.version>3.9</commons.lang3.version>
-        <junit.version>4.12</junit.version>
+        <junit.version>4.13.1</junit.version>
         <log4j.version>1.2.17</log4j.version>
         <!-- 不要指定版本，因为 cloud 已经集成了最新版本，并且 IDEA 下载 lombok 插件时也是下载最新的 -->
         <!--<lombok.version>1.16.18</lombok.version>-->
