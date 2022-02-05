@@ -10,7 +10,6 @@
 		<version>1.0-SNAPSHOT</version>
 	</parent>
 
-	<groupId>com.hyman</groupId>
 	<artifactId>cloud-api</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>cloud-api</name>

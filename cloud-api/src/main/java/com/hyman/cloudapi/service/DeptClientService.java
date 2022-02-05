@@ -29,7 +29,6 @@ import java.util.List;
  * 的方法目前不支持回退。
  */
 @FeignClient(value = "microservice-provider-dept", configuration = FeignConfig.class, fallbackFactory = HystrixFallback.class)
-@Component
 public interface DeptClientService {
 
     //@GetMapping("/getById/{id}")
@@ -39,7 +38,7 @@ public interface DeptClientService {
     //public List<Department> findall();
 
     /**
-     * Feign 暂不支持复杂对象作为参数？（待确认）
+     * Feign 同样支持复杂对象作为参数
      */
     @GetMapping("/save")
     public boolean save(@RequestBody Department department);

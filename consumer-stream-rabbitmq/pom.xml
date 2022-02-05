@@ -3,19 +3,28 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<artifactId>consumer-hystrix-dashboard</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
-	<name>consumer-hystrix-dashboard-turbine</name>
-	<description>Demo project for Spring Boot</description>
-
 	<parent>
-		<!-- 子项目中需要显示声明父类，才能有明确的继承表现，无意外就是父类的默认版本否则自己定义（这里是手动添加的） -->
 		<groupId>com.hyman</groupId>
 		<artifactId>SpringCloudDemo</artifactId>
 		<version>1.0-SNAPSHOT</version>
 	</parent>
 
+	<artifactId>consumer-stream-rabbitmq</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>consumer-dept-feign</name>
+	<description>Demo project for Spring Boot</description>
+
 	<dependencies>
+		<!-- 引入自己定义的api通用包，可以使用Dept部门Entity -->
+		<dependency>
+			<groupId>com.hyman</groupId>
+			<artifactId>cloud-api</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-devtools</artifactId>
@@ -33,32 +42,10 @@
 			<artifactId>spring-cloud-starter-config</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.mybatis.spring.boot</groupId>
-			<artifactId>mybatis-spring-boot-starter</artifactId>
-		</dependency>
-
-		<dependency>
 			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-starter-netflix-turbine</artifactId>
+			<artifactId>spring-cloud-starter-stream-rabbit</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-starter-netflix-hystrix-dashboard</artifactId>
-		</dependency>
-
 	</dependencies>
-
-	<dependencyManagement>
-		<dependencies>
-			<dependency>
-				<groupId>org.springframework.cloud</groupId>
-				<artifactId>spring-cloud-dependencies</artifactId>
-				<version>${spring-cloud.version}</version>
-				<type>pom</type>
-				<scope>import</scope>
-			</dependency>
-		</dependencies>
-	</dependencyManagement>
 
 	<build>
 		<plugins>

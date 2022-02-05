@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Scope;
 public class FeignConfigDemo {
 
     /**
-     * w使用 feign 负载请求时，声明权限的用户名密码，以使得请求验证通过。（此处用于请求 eureka7001 时的认证）。
+     * 使用 feign 负载请求时，声明权限的用户名密码，以使得请求验证通过。（此处用于请求 eureka7001 时的认证）。
      * @return
      */
     @Bean

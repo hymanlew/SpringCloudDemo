@@ -1,0 +1,51 @@
+server:
+  port: 80
+
+spring:
+  application:
+    name: microservice-consumer-stream
+  cloud:
+    stream:
+      # 此处配置要绑定的 rabbitmq 的服务信息
+      binders:
+        # 自定义的名称，用于 binding 绑定器的整合
+        defaultRabbit:
+          # 消息中间件的类型
+          type: rabbit
+          # 设置中间件相关的环境配置
+          environment:
+            spring:
+              rabbitmq:
+                host: localhost
+                port: 5672
+                username: root
+                password: root
+      # 中间件服务的整合处理
+      bindings:
+        # 输入通道的名称，即本服务是作为消费者
+        input:
+          # 表示要使用的目标 Exchange 的名称
+          destination: studyExchange
+          # 设置消息类型，本次为 json，文本则设置为 text/plain
+          content-type: application/json
+          # 设置要绑定的消息服务的具体设置
+          binder: defaultRabbit
+          # 自定义配置分组，并将消费者配置为同一个组，解决重复消费
+          # 并且 group 属性也具有消息持久化的功能
+          group: hymantest
+
+eureka:
+  # 客户端注册进 eureka 服务列表内
+  client:
+    service-url:
+      # 单机版，只有一个注册中心时
+      # defaultZone: http://localhost:7001/eureka
+      # 集群版，同时有多个注册中心时
+      defaultZone: http://admin:admin@eureka7001:7001/eureka/,http://eureka7002:7002/eureka/,http://eureka7003:7003/eureka/
+  instance:
+    # 自定义在注册中心页面显示的微服务的名称
+    instance-id: consumer-stream-dept
+    # 设置显示微服务名称链接的访问路径 IP 地址
+    prefer-ip-address: true
+
+

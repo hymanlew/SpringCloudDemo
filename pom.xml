@@ -68,11 +68,14 @@
 
     <modules>
         <module>common</module>
+        <module>cloud-api</module>
         <module>cloud-zuul-9527</module>
 
+        <module>consumer-dept-80</module>
         <module>provider-dept-8001</module>
         <module>provider-dept-8002</module>
         <module>provider-stream-rabbitmq-8003</module>
+        <module>consumer-stream-rabbitmq</module>
     </modules>
 
     <!-- Dependencies 相对于 dependencyManagement，所有在这个元素里的依赖都会自动引入，并默认被所有的子项目继承。-->
@@ -160,6 +163,11 @@
             <dependency>
                 <groupId>com.alibaba</groupId>
                 <artifactId>druid-spring-boot-starter</artifactId>
+                <version>${durid.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>druid</artifactId>
                 <version>${durid.version}</version>
             </dependency>
             <dependency>

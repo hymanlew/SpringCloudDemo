@@ -3,7 +3,6 @@ server:
 
 spring:
   application:
-#   这个名字很重要，是注册到注册中心必须用到的，也是服务发现时用到的名字
     name: microservice-consumer-dept
 
 eureka:
@@ -21,4 +20,11 @@ eureka:
     instance-id: consumer-dept-80
     # 设置显示微服务名称链接的访问路径 IP 地址
     prefer-ip-address: true
+
+# 启用熔断机制，设置响应超时时间（Hystrix 默认的超时时间是 1秒），并自动调用 api 中的 fallback 进行信息返回.
+feign:
+  hystrix:
+    enabled: true
+  httpclient:
+    connection-timeout: 3000
 
