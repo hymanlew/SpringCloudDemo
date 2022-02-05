@@ -23,7 +23,7 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <java.version>1.8</java.version>
-        <mysql.version>5.1.30</mysql.version>
+        <mysql.version>8.0.15</mysql.version>
 
         <durid.version>1.1.20</durid.version>
         <mapper.version>3.4.2</mapper.version>
@@ -67,8 +67,12 @@
     </properties>
 
     <modules>
-        <module>cloud-zuul-9527</module>
         <module>common</module>
+        <module>cloud-zuul-9527</module>
+
+        <module>provider-dept-8001</module>
+        <module>provider-dept-8002</module>
+        <module>provider-stream-rabbitmq-8003</module>
     </modules>
 
     <!-- Dependencies 相对于 dependencyManagement，所有在这个元素里的依赖都会自动引入，并默认被所有的子项目继承。-->
@@ -101,6 +105,11 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
             <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <optional>true</optional>
         </dependency>
     </dependencies>
 

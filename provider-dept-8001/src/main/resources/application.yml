@@ -61,6 +61,22 @@ eureka:
     statusPageUrlPath: ${server.servletPath}/info
     healthCheckUrlPath: ${server.servletPath}/health
 
+
+# 如果配置ribbon的重试，hystrix的超时时间要大于ribbon的超时时间，ribbon才会重试。Hystrix 默认的超时时间是 1秒。
+hystrix:
+  command:
+    #   default全局有效，service id 指定应用有效
+    default:
+      execution:
+        timeout:
+          #         如果 enabled 设置为 false，则请求超时交给 ribbon控制。如果为 true，则超时作为熔断根据
+          enabled: true
+        isolation:
+          thread:
+            #           断路器超时时间，默认1000ms
+            timeoutInMilliseconds: 3000
+
+
 # 使用 actuator 功能自定义显示项目的描述信息，需要注意，要在父工程中进行资源访问的配置（resources 标签加 maven-resources-plugin 插件）
 info:
   service:

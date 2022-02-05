@@ -3,7 +3,6 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>com.hyman</groupId>
 	<artifactId>provider-dept-8001</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>provider-dept-8001</name>
@@ -54,7 +53,6 @@
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
-			<version>8.0.15</version>
 		</dependency>
 		<dependency>
 			<groupId>com.alibaba</groupId>
@@ -68,11 +66,23 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
+
+		<!-- 需要单独引入 javanica 包，因为它提供了很多熔断器所需要的工具。并且要注意它与其他 jar 包是否有冲突，如果报红线的话
+		 	就直接删除 .laseupdate 文件，然后重新下载即可 -->
+		<dependency>
+			<groupId>com.netflix.hystrix</groupId>
+			<artifactId>hystrix-javanica</artifactId>
+			<version>RELEASE</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-netflix-hystrix</artifactId>
+		</dependency>
 	</dependencies>
 
 	<!-- 构建特殊配置信息，因为在构建Maven项目的时候，如果没有进行特殊的配置，Maven会按照标准的目录结构查找和处理各种类型文件。 -->
 	<build>
-		<finalName>SpringCloudDemo</finalName>
+		<finalName>provider-dept-8001</finalName>
 		<!-- 通过 resource 标签来指定加载配置文件，也可以指定访问的资源的路径 -->
 		<resources>
 			<resource>
