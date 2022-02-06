@@ -7,16 +7,20 @@ import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 @RestController
 @RequestMapping("/dept")
 public class DeptController {
 
-    @Autowired
+    @Resource
     private DeptService deptService;
-    // 对于注册进 eureka 里面的微服务，可以通过服务发现来获得该服务的信息。
-    @Autowired
+
+    /**
+     * 对于注册进 eureka 里面的微服务，可以通过服务发现来获得该服务的信息。
+     */
+    @Resource
     private DiscoveryClient client;
 
     @GetMapping("/getById/{id}")

@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
  * @author hucl
  * @date 2020/8/7 16:32
  */
-@FeignClient(value = "szjw-firmiana-domain-mq", fallbackFactory = IMQFeignFallBack.class, primary = false)
+@FeignClient(value = "service-mq", fallbackFactory = IMQFeignFallBack.class, primary = false)
 public interface IMQFeign {
 
     /**

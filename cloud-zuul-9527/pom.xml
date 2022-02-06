@@ -18,6 +18,27 @@
 			<groupId>com.hyman</groupId>
 			<artifactId>common</artifactId>
 			<version>${project.version}</version>
+
+			<!-- 之所以排除这些依赖，是因为 gateway，zuul 网关层不需要，并且如果引入这些依赖的话，启动会报错 -->
+			<!-- please remove spring-boot-starter-web dependency -->
+			<exclusions>
+				<exclusion>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter-actuator</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.springframework</groupId>
+					<artifactId>spring-webmvc</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.springframework</groupId>
+					<artifactId>spring-web</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter-web</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 
 		<dependency>

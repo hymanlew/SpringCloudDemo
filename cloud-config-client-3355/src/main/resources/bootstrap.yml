@@ -8,7 +8,17 @@
 # 所以新增了一个 Bootstrap.yml 文件，保证 Bootstrap Context 和 Application Context 配置的分离。
 # 加载顺序为：bootstrap.* 配置 --》 config server 中远程的配置 --》 最后加载 application.*。
 
+########
+# 当使用 config 配置中心的远程配置文件时，则客户端就必须使用 bootstrap.yml 文件，从而优先拉取远程配置并覆盖本地配置。
+########
+
+server:
+  port: 3355
+
 spring:
+  application:
+    name: microservice-config-client
+
 #  # 当没有使用 eureka 时，需要手动指定地址并读取 configserver 中的配置
 #  cloud:
 #    config:
@@ -19,15 +29,48 @@ spring:
 #      # git 下的哪个分支，默认为 master
 #      label: master
 #      # 本微服务启动后先去找 3344 端口号的服务，通过 microservice-config-server-3344 项目的 application 文件中获取 github 的服务地址
-#      url: http://microservice-config-server:3344
+#      uri: http://admin:admin@microservice-config-server:3344
+#      # 如果是使用以下属性的方式来指定服务端的账号密码，则属性的值会覆盖掉上面 url 中的值。即属性的级别高于 url。
+#      username: admin
+#      password: admin
 
-  # 在使用 eureka 服务发现时，它会从注册的服务中获取指定的 configserver 的配置信息。并且要配置在 Bootstrap 文件中
+#  # 在使用 eureka 服务发现时，它会从注册的服务中获取指定的 configserver 的配置信息。并且要配置在 Bootstrap 文件中
   cloud:
     config:
       discovery:
         enabled: true
         # 即指定 server 的 application-name
-        service-id: microservice-config-server-eureka-3345
-      # 使用以下属性来指定服务端的账号密码
+        service-id: microservice-config-server
+      # 使用以下属性来指定服务端在 eurake 中的账号密码
       username: admin
       password: admin
+      profile: dev
+
+eureka:
+  # 客户端注册进 eureka 服务列表内
+  client:
+    service-url:
+      # 单机版，只有一个注册中心时
+      # defaultZone: http://localhost:7001/eureka
+      # 集群版，同时有多个注册中心时
+      defaultZone: http://admin:admin@eureka7001:7001/eureka/,http://eureka7002:7002/eureka/,http://eureka7003:7003/eureka/
+  instance:
+    # 自定义在注册中心页面显示的微服务的名称
+    instance-id: microservice-config-client
+    # 设置显示微服务名称链接的访问路径 IP 地址
+    prefer-ip-address: true
+
+
+# 通过配置文件指定提供者的负载均衡算法，而不再需要进行编码。
+# 优先级为：配置文件 》 RibbonClient 注解代码 》 cloud 默认的配置。
+microservice-config-dept-client:
+  ribbon:
+    NIWSServerListClassName: com.netflix.loadbalancer.ConfigurationBasedServerList
+    NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RandomRule
+
+# 公开 /refresh 端点，暴露监控端点
+management:
+   endpoints:
+     web:
+       exposure:
+         include: "*"

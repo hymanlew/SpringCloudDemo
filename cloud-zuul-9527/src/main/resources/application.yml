@@ -3,24 +3,33 @@ server:
   port: 9527
   servlet:
     context-path: /myzuul
-    multipart:
-      enabled: true
-      max-file-size: 300MB
-      max-request-size: 350MB
 
 spring:
   application:
     # 这个名字很重要，是注册到注册中心必须用到的，也是服务发现时用到的名字
     name: microservice-zuul-gateway
+  # 设置上传文件大小
+  servlet:
+    multipart:
+      max-file-size: 200MB
+      max-request-size: 250MB
+
+# 但对于大型文件，可以使用 /zuul/*，该路径会绕过 Spring DispatcherServlet 来进行文件上传（因为通常所有的请求都会被主控制器接收并分配）。
+# 即在使用 zuul 进行转发本服务进行文件上传时，可使用 zuulIP:port/zuul/本服务application-name（或自定义的映射路径）/uploadpath 即可。
+# 换句话说，如果您有zuul.routes.customers=/customers/**，那么您可以将大文件发布到/zuul/customers/*。servlet路径通过zuul.servlet path外部化。如果代理路由带您通过功能区负载平衡器，则超大文件还需要提升超时设置
 
   # 新增加的配置，合并其他项目时
   cloud:
     config:
       discovery:
         enabled: true
-        service-id: config-qzn
+        service-id: microservice-config-server
+      # 从 github 上读取的 yml 资源文件的名称，注意没有 yml 后缀。并且它还要跟 spring.application.name 的名称保持一致
       name: ${spring.application.name}
-
+      # 使用以下属性来指定服务端在 eurake 中的账号密码
+      username: admin
+      password: admin
+      profile: dev
 
 feign:
   compression:
@@ -30,7 +39,6 @@ feign:
       min-request-size: 2048
     response:
       enabled: true
-
 
 eureka:
   # 客户端注册进 eureka 服务列表内

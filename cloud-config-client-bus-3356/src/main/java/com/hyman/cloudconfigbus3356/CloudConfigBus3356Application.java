@@ -2,26 +2,33 @@ package com.hyman.cloudconfigbus3356;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.client.circuitbreaker.EnableCircuitBreaker;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
+import org.springframework.cloud.netflix.hystrix.EnableHystrix;
 
 /**
- * 消息总线:
+ * 消息总线 Bus:
+ * Spring Cloud Bus 是用于将分布式系统的节点与轻量级消息系统链接起来的框架，它整合了 java 的事件处理机制和消息中间件的功能。
+ * Bus + Config 可用于 config server 配置信息全自动的更新到 config client 中，即广播通知，定向通知，而不再需要再手动发送 post
+ * 请求去更新。
  *
- * 如果Spring Cloud Bus在类路径中检测到自身，则通过添加 Spring Boot autconfiguration 来工作。要启用总线，需要导入 spring-cloud-starter-bus-amqp
- * 或 spring-cloud-starter-bus-kafka 依赖。 Spring Cloud 负责其余的工作。 确保代理（RabbitMQ或Kafka）可用并且已配置。 在本地
- * 主机上运行时，您无需执行任何操作。
- * 如果您是远程运行的，请使用 Spring Cloud Connectors 或 Spring Boot 约定定义代理凭据，即在 bootstrap.yml 中的配置。
+ * Bus 依赖于 RabbitMQ 或者 kafka，且目前只支持这两种。
  *
- * 在引入 amqp 依赖，并配置了 rabbitmq 配置时，就可以实现动态刷新了。直接访问 http://服务ip:port/bus/refresh 即可实现配置的动
- * 态刷新。当然这是半自动化的刷新（作用于依赖 Config Server 配置的所有客户端），还是需要手动请求。
+ * 如果 Spring Cloud Bus 在类路径中检测到自身，则通过添加 Spring Boot autconfiguration 来工作。
+ * - 要启用总线，需要导入 spring-cloud-starter-bus-amqp 或 spring-cloud-starter-bus-kafka 依赖，Spring Cloud 负责其余的工作。
+ * - 确保代理（RabbitMQ或Kafka）可用并且已配置。 在本地主机上运行时，您无需执行任何操作。
+ * - 如果是远程配置，使用 Spring Cloud Connectors 或 Spring Boot 约定定义代理凭据，即在 bootstrap.yml 中的配置。
+ * - 在引入 amqp 依赖，并配置了 rabbitmq 配置时，就可以实现动态刷新了。
+ * - 直接访问 http://服务ip:port/bus/refresh 即可实现配置的动态刷新。当
+ * 然这是半自动化的刷新（作用于依赖 Config Server 配置的所有客户端），还是需要手动请求。
  *
  *
  * 以下是设置为自动刷新：
  * 许多源代码存储库程序（例如Github，Gitlab，Gitea，Gitee，Gogs或Bitbucket）都通过 Webhook 来自动通知服务，存储库中发生的更改。
  * 所以可以通过他们的用户界面将 Webhook 配置为 URL 和刷新的一组事件。
- * 例如 Github使用 POST 到 Webhook，其JSON主体包含提交列表和设置为可推送的标头（X-Github-Event）。如果在 spring-cloud-config-monitor
- * 库上添加依赖项并在 Config Server 中激活Spring Cloud Bus，那么将启用/ monitor端点。
+ * 例如 Github 使用 POST 到 Webhook，其JSON主体包含提交列表和设置为可推送的标头（X-Github-Event）。如果在 spring-cloud-config-monitor
+ * 库上添加依赖项并在 Config Server 中激活Spring Cloud Bus，那么将启用 /monitor端点。
  *
  * 激活 Webhook 后，配置服务器将发送一个 RefreshRemoteApplicationEvent，该事件针对它认为可能已更改的应用程序。变化检测可以被策
  * 略化。但默认情况下，它会查找与应用程序名称匹配的文件中的更改（例如，foo.properties针对foo应用程序，而 application.properties
@@ -59,12 +66,12 @@ import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
  * 2，/bus/refresh 请求不再发送到具体服务实例上，而是发送给 Config Server, 并通过 destination 参数来指定需要更新配置的服务或实例。
  * 通过上面的改动，我们的服务实例不需要再承担触发配置更新的职责。同时对于 Git 的触发等配置都只需要针对 ConfigServer 即可， 从而简化
  * 了集群上的一些维护工作。
- *
- *
  */
 @SpringBootApplication
 @EnableEurekaClient
 @EnableDiscoveryClient
+@EnableHystrix
+@EnableCircuitBreaker
 public class CloudConfigBus3356Application {
 
 	public static void main(String[] args) {

@@ -2,7 +2,9 @@ package com.hyman.cloudconfigserver;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.config.server.EnableConfigServer;
+import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 
 /**
  * 分布式系统面临的配置问题：
@@ -30,9 +32,18 @@ import org.springframework.cloud.config.server.EnableConfigServer;
  *
  * 当然 ConfigServer 并不是唯一的配置，也可以使用其他组件进行分布式配置管理，如 zookeeper，consul，百度的 disconf（比较成熟），
  * 阿里的 diamond，携程的 apollo。
+ *
+ *
+ * 配置与搭建
+ * - 在 github 上新建一个 springcloud-config 的仓库，并获得仓库的访问地址。
+ * - 在本地磁盘 clone 到远程仓库，这个就是配置中心的仓库了。
+ * - 仓库中的配置文件保存格式必须为 UTF-8。
+ * - 然后在 springcloud 项目中新建一个 configserver 模块（即本服务），用于连接到远程配置仓库。
  */
 @SpringBootApplication
 @EnableConfigServer
+@EnableDiscoveryClient
+@EnableEurekaClient
 public class CloudConfigServer3344Application {
 
 	public static void main(String[] args) {

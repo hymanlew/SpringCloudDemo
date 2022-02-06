@@ -3,8 +3,10 @@ package com.hyman.providerdept8001;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.client.circuitbreaker.EnableCircuitBreaker;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
+import org.springframework.cloud.netflix.hystrix.EnableHystrix;
 
 /**
  * 在分布式系统中可能会面临的问题：
@@ -61,7 +63,7 @@ import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
  * 其中 /hystrix.stream 访问时，如果出现 404，则需要检查是否配置了 home-page-url-path 属性。如果有则要配置 instanceUrlSuffix。
  *
  *
- * @EnableDiscoveryClient 注解是通用性的服务发现，可以支持其他的服务发现组件。
+ * @EnableDiscoveryClient 注解是通用性的服务，可以支持其他的服务发现组件。
  * @EnableEurekaClient 注解是专属的 eureka 服务发现，不支持其他的服务发现。
  */
 @EnableHystrix

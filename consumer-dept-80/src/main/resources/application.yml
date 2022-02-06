@@ -4,6 +4,15 @@ server:
 spring:
   application:
     name: microservice-consumer-dept
+  # 设置上传文件大小
+  servlet:
+    multipart:
+      max-file-size: 20MB
+      max-request-size: 20MB
+
+# 但对于大型文件，可以使用 /zuul/*，该路径会绕过 Spring DispatcherServlet 来进行文件上传（因为通常所有的请求都会被主控制器接收并分配）。
+# 即在使用 zuul 进行转发本服务进行文件上传时，可使用 zuulIP:port/zuul/本服务application-name（或自定义的映射路径）/uploadpath 即可。
+# 换句话说，如果您有zuul.routes.customers=/customers/**，那么您可以将大文件发布到/zuul/customers/*。servlet路径通过zuul.servlet path外部化。如果代理路由带您通过功能区负载平衡器，则超大文件还需要提升超时设置
 
 eureka:
   # 客户端注册进 eureka 服务列表内
@@ -28,3 +37,20 @@ feign:
   httpclient:
     connection-timeout: 3000
 
+
+# 如果配置ribbon的重试，hystrix的超时时间要大于ribbon的超时时间，ribbon才会重试。Hystrix 默认的超时时间是 1秒。
+hystrix:
+  command:
+    # default全局有效，service id 指定应用有效
+    default:
+      execution:
+        timeout:
+          # 如果 enabled 设置为 false，则请求超时交给 ribbon控制。如果为 true，则超时作为熔断根据
+          enabled: true
+        isolation:
+          thread:
+            # 断路器超时时间，默认1000ms
+            timeoutInMilliseconds: 3000
+      # 10秒内请求数量超过3次满足熔断第一个条件，如果请求中50%的请求是失败的满足第二个条件
+      circuitBreaker:
+        requestVolumeThreshold: 3

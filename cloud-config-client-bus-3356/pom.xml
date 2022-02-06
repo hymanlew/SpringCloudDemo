@@ -3,9 +3,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>com.hyman</groupId>
 	<artifactId>cloud-config-client-bus-3356</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
 	<name>cloud-config-client-bus-3356</name>
 	<description>Demo project for Spring Boot</description>
 
@@ -17,12 +15,10 @@
 	</parent>
 
 	<dependencies>
-		<!-- spring-cloud-config-client -->
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-starter-config</artifactId>
+			<artifactId>spring-cloud-starter-openfeign</artifactId>
 		</dependency>
-
 		<!-- 需要单独引入 javanica 包，因为它提供了很多熔断器所需要的工具。并且要注意它与其他 jar 包是否有冲突，如果报红线的话
 		 	就直接删除 .laseupdate 文件，然后重新下载即可 -->
 		<dependency>
@@ -54,7 +50,12 @@
 			<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
 		</dependency>
 
-		<!-- SpringCloudBus 依赖于 RabbitMQ 或者 kafka -->
+		<!-- spring-cloud-config-client -->
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-config</artifactId>
+		</dependency>
+		<!-- SpringCloudBus 依赖于 RabbitMQ 或者 kafka，且目前只支持这两种 -->
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-bus-amqp</artifactId>

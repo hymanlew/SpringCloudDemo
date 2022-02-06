@@ -76,6 +76,10 @@
         <module>provider-dept-8002</module>
         <module>provider-stream-rabbitmq-8003</module>
         <module>consumer-stream-rabbitmq</module>
+
+        <module>cloud-config-server-3344</module>
+        <module>cloud-config-client-3355</module>
+        <module>cloud-config-client-bus-3356</module>
     </modules>
 
     <!-- Dependencies 相对于 dependencyManagement，所有在这个元素里的依赖都会自动引入，并默认被所有的子项目继承。-->

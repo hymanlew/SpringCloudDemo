@@ -1,0 +1,97 @@
+
+# 当使用 config 配置中心的远程配置文件时，则所有的客户端就必须使用 bootstrap.yml 文件，从而优先拉取远程配置并覆盖本地配置。
+
+server:
+  port: 8002
+
+mybatis:
+  config-location: classpath:mybatis-config.xml             # mybatis配置文件所在路径
+  mapper-locations: classpath:mapper/*.xml                  # mapper映射文件
+
+spring:
+  application:
+    name: microservice-provider-dept
+    datasource:
+      # 数据源基本配置
+      username: root
+      password: 123456
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql://localhost:3306/test2?serverTimezone=GMT%2B8&autoReconnect=true&rewriteBatchedStatements=true&allowMultiQueries=true&useSSL=false&useUnicode=true&characterEncoding=utf8&characterSetResults=utf-8
+      type: com.alibaba.druid.pool.DruidDataSource
+      # 数据源其他配置
+      initialSize: 5
+      minIdle: 5
+      maxActive: 20
+      maxWait: 60000
+      timeBetweenEvictionRunsMillis: 60000
+      minEvictableIdleTimeMillis: 300000
+      validationQuery: SELECT 1 FROM DUAL
+      testWhileIdle: true
+      testOnBorrow: false
+      testOnReturn: false
+      poolPreparedStatements: true
+      # 配置监控统计拦截的filters，去掉后监控界面sql无法统计，'wall'用于防火墙
+      # filters: stat,wall,log4j
+      maxPoolPreparedStatementPerConnectionSize: 20
+      useGlobalDataSourceStat: true
+      connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=500
+
+  #  # 当没有使用 eureka 时，需要手动指定地址并读取 configserver 中的配置
+#  cloud:
+#    config:
+#      # 需要从 github 上读取的 yml 资源文件的名称，注意没有 yml 后缀。并且它还要跟 spring.application.name 的名称保持一致
+#      name: microservice-config-client
+#      # 本次访问的哪一类配置项
+#      profile: dev
+#      # git 下的哪个分支，默认为 master
+#      label: master
+#      # 本微服务启动后先去找 3344 端口号的服务，通过 microservice-config-server-3344 项目的 application 文件中获取 github 的服务地址
+#      url: http://microservice-config-server:3344
+
+  # 在使用 eureka 服务发现时，它会从注册的服务中获取指定的 configserver 的配置信息。并且要配置在 Bootstrap 文件中
+  cloud:
+    config:
+      discovery:
+        enabled: true
+        # 即指定 server 的 application-name
+        service-id: microservice-config-server
+      # 使用以下属性来指定服务端在 eureka 的账号密码
+      username: admin
+      password: admin
+
+    # 启用跟踪总线事件
+    bus:
+      trace:
+        enabled: true
+
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: hyman
+    password: hyman
+
+eureka:
+  # 客户端注册进 eureka 服务列表内
+  client:
+    service-url:
+      # 单机版，只有一个注册中心时
+      #defaultZone: http://localhost:7001/eureka
+      # 集群版，同时有多个注册中心时
+      defaultZone: http://admin:admin@eureka7001:7001/eureka/,http://eureka7002:7002/eureka/,http://eureka7003:7003/eureka/
+  instance:
+    # 自定义在注册中心页面显示的微服务的名称
+    instance-id: provider-dept-8002
+    # 设置显示微服务名称链接的访问路径 IP 地址
+    prefer-ip-address: true
+
+
+# 自定义显示项目的描述信息，需要注意，要在父工程中进行资源访问的配置（resources 标签加 maven-resources-plugin 插件）
+info:
+  service:
+    name: hyman-microservicecloud
+    ipname: www.hyman.com
+  build:
+    artifactId: @project.artifactId@
+    version: @project.version@
+    description: @project.description@
+

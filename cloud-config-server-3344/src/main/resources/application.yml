@@ -1,32 +1,58 @@
 server:
   port: 3344
 
+# 集群模式
+eureka:
+  # 客户端注册进 eureka 服务列表内
+  client:
+    service-url:
+      # 单机版，只有一个注册中心时
+      # defaultZone: http://localhost:7001/eureka
+      # 集群版，同时有多个注册中心时（其中 eureka7001 设置了登录验证）
+      defaultZone: http://admin:admin@eureka7001:7001/eureka/,http://eureka7002:7002/eureka/,http://eureka7003:7003/eureka/
+    # 从 eureka 服务器获取注册表信息的频率，以秒为单位
+    registry-fetch-interval-seconds: 30
+    # 使用 eureka 检查功能（需要有 actuator 依赖），注意一定要配置在 application.xml 中，不能在 bootstrap，否则会有未知的错误
+    healthcheck:
+      enabled: true
+  instance:
+    # 自定义在注册中心页面显示的微服务的名称
+    instance-id: microservice-config-server-eureka-3345
+    # 设置显示微服务名称链接的访问路径 IP 地址
+    prefer-ip-address: true
+
 spring:
   application:
-#   这个名字很重要，是注册到注册中心必须用到的，也是服务发现时用到的名字。并且必须要对外显露统一的服务实例名称，不能更改。
+    # 这个名称必须与 github 上对应的配置的名称一致，否则无法正常加载
     name: microservice-config-server
   cloud:
     config:
       server:
         git:
-#         github 上的 git 仓库名字（是一个单独存储 yml 配置文件的项目，没有其他东西），即指定 config server在 git上的 yml 配置。
-#         以让 config client 动态获取仓库中的配置文件信息。不可以使用 git@github 方式进行访问。
-          uri: https://github.com/hymanlew/SpringCloudDemo.git
+          # github 上的 git 仓库名字（是一个单独存储 yml 配置文件的项目，没有其他东西），即指定 config server在 git上的 yml 配置。
+          # 以让 config client 动态获取仓库中的配置文件信息。
+          # 注意，这里不可以使用 git@github 方式进行访问。
+          uri: https://github.com/hymanlew/SpringCloudDemo-Config.git
           username: hymanlew
           password: hymanlew
+          # 指定搜索的目录
+          search-paths:
+            - SpringCloudDemo-Config
+      # 读取的分支，默认也是 master
+      label: master
 
 # 访问时，使用以下方式（application=application name，label=git batch name(默认是 master)，profile=各个环境上的配置）：
-# /{application}/{profile}[/{label}]
-# /{application}-{profile}.yml
-# /{label}/{application}-{profile}.yml
-# /{application}-{profile}.properties
-# /{label}/{application}-{profile}.properties
+# localhost:3344/{application}-{profile}.yml
+# localhost:3344/{application}-{profile}.properties
+# localhost:3344/{label}/{application}-{profile}.yml
+# localhost:3344/{label}/{application}-{profile}.properties
+# localhost:3344/{application}/{profile}[/{label}]
 
-# 例如，localhost:3344/microservice-config-server-default.yml，并且无论是哪个服务名称，它都会访问到 git 指定的路径中，去获取
-# application.* 文件的数据：
+# 例如，localhost:3344/microservice-config-server-default.yml，此时无论是哪个服务名称 application，它都会访问到 git 指定的路径中，
+# 去获取 microservice-config-server-default.yml 文件的数据：
 # 1，首先它会先搜索配置服务器中有没有被访问的同名的文件，有则就直接读取该文件的数据。
 # 2，如果没有，就会到 application.yml/properties 文件中去读取数据。
-# 3，如果仍然没有找到，则会抛异常。
+# 3，如果仍然没有找到，则会返回空值。
 
 # 也可以配置 uri 为，https://github.com/hymanlew/{application}
 # 则此时引用的配置就会是灵活的，即只要是在访问时的 application-name 在 git 中有对应的仓库配置文件，则就会访问到对应的配置。

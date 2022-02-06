@@ -1,12 +1,52 @@
 
-# application.yml 是用户级别的资源配置
-# bootstrap.yml 是系统级别的资源配置，优先级更高
+# 当使用 config 配置中心的远程配置文件时，则所有的客户端就必须使用 bootstrap.yml 文件，从而优先拉取远程配置并覆盖本地配置。
+server:
+  port: 3356
 
-# SpringCloud 会创建一个 Bootstrap Context 启动上下文作为 spring Application Context 的父上下文。初始化时 Bootstrap Context
-# 负责从外部源加载配置属性并解析配置。这两个上下文共享一个从外部获取的 Environment。
-# Bootstrap 属性有更高的优先级，默认它们不会被本地配置覆盖。Bootstrap Context 和 Application Context 有着不同的约定。
-# 所以新增了一个 Bootstrap.yml 文件，保证 Bootstrap Context 和 Application Context 配置的分离。
-# 加载顺序为：bootstrap.* 配置 --》 config server 中远程的配置 --》 最后加载 application.*。
+spring:
+  application:
+    # 这个名字很重要，是注册到注册中心必须用到的，也是服务发现时用到的名字。并且必须要对外显露统一的服务实例名称，不能更改。
+    name: microservice-config-client-bus
+
+eureka:
+  # 客户端注册进 eureka 服务列表内
+  client:
+    service-url:
+      # 单机版，只有一个注册中心时
+      # defaultZone: http://localhost:7001/eureka
+      # 集群版，同时有多个注册中心时
+      defaultZone: http://admin:admin@eureka7001:7001/eureka/,http://eureka7002:7002/eureka/,http://eureka7003:7003/eureka/
+  instance:
+    # 自定义在注册中心页面显示的微服务的名称
+    instance-id: config-client-bus-3356
+    # 设置显示微服务名称链接的访问路径 IP 地址
+    prefer-ip-address: true
+
+feign:
+  hystrix:
+    enabled: true
+
+# 如果配置ribbon的重试，hystrix的超时时间要大于ribbon的超时时间，ribbon才会重试。Hystrix 默认的超时时间是 1秒。
+hystrix:
+  command:
+    # default全局有效，service id 指定应用有效
+    default:
+      execution:
+        timeout:
+          # 如果 enabled 设置为 false，则请求超时交给 ribbon控制。如果为 true，则超时作为熔断根据
+          enabled: true
+        isolation:
+          thread:
+            # 断路器超时时间，默认1000ms
+            timeoutInMilliseconds: 3000
+
+# 通过配置文件指定提供者的负载均衡算法，而不再需要进行编码。
+# 优先级为：配置文件 》 RibbonClient 注解代码 》 cloud 默认的配置。
+microservice-config-dept-client:
+  ribbon:
+    NIWSServerListClassName: com.netflix.loadbalancer.ConfigurationBasedServerList
+    NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RandomRule
+
 
 spring:
   # 在使用 eureka 服务发现时，它会从注册的服务中获取指定的 configserver 的配置信息。并且要配置在 Bootstrap 文件中
@@ -15,7 +55,7 @@ spring:
       discovery:
         enabled: true
         # 即指定 server 的 application-name
-        service-id: microservice-config-server-eureka-3345
+        service-id: microservice-config-server
       # 使用以下属性来指定服务端的账号密码
       username: admin
       password: admin

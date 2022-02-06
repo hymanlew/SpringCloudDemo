@@ -5,7 +5,6 @@ mybatis:
   config-location: classpath:mybatis-config.xml             # mybatis配置文件所在路径
   mapper-locations: classpath:mapper/*.xml                  # mapper映射文件
 
-
 spring:
   application:
 #   这个名字很重要，是注册到注册中心必须用到的，也是服务发现时用到的名字
@@ -34,7 +33,7 @@ spring:
     maxPoolPreparedStatementPerConnectionSize: 20
     useGlobalDataSourceStat: true
     connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=500
-      
+
 eureka:
   # 客户端注册进 eureka 服务列表内
   client:
@@ -61,7 +60,6 @@ eureka:
     statusPageUrlPath: ${server.servletPath}/info
     healthCheckUrlPath: ${server.servletPath}/health
 
-
 # 如果配置ribbon的重试，hystrix的超时时间要大于ribbon的超时时间，ribbon才会重试。Hystrix 默认的超时时间是 1秒。
 hystrix:
   command:
@@ -75,7 +73,9 @@ hystrix:
           thread:
             # 断路器超时时间，默认1000ms
             timeoutInMilliseconds: 3000
-
+      # 10秒内请求数量超过3次满足熔断第一个条件，如果请求中50%的请求是失败的满足第二个条件
+      circuitBreaker:
+        requestVolumeThreshold: 3
 
 # 使用 actuator 功能自定义显示项目的描述信息，需要注意，要在父工程中进行资源访问的配置（resources 标签加 maven-resources-plugin 插件）
 info:
